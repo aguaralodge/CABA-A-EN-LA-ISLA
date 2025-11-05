@@ -1,201 +1,230 @@
-
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cabaña en la Isla · Emiliano Lorenzini</title>
-    <meta name="description" content="Alquiler de cabaña en las islas del río Paraná (norte de Santa Fe). Emprendimiento familiar desde 2018. Pesca deportiva, descanso y naturaleza.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./style.css" />
-  </head>
-  <body class="bg-slate-900 text-slate-50">
-    <!-- NAV -->
-    <header class="sticky top-0 z-30 backdrop-blur bg-slate-900/70 border-b border-slate-800">
-      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <span class="h-9 w-9 rounded-2xl inline-block logo-gradient shadow-md"></span>
-          <h1 class="text-lg md:text-xl font-semibold tracking-wide">
-            Emiliano Lorenzini · <span class="font-normal">Cabaña en la Isla</span>
-          </h1>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aguara Lodge | Islas del Paraná</title>
+  <meta name="description" content="Aguara Lodge: cabañas en las islas del Paraná (norte de Santa Fe). Naturaleza, pesca deportiva y descanso auténtico." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__wrap">
+      <a href="#" class="brand" aria-label="Aguara Lodge - ir al inicio">
+        <div class="brand__mark" id="logoBox" aria-hidden="true"></div>
+        <div class="brand__txt">
+          <span class="brand__name">Aguara Lodge</span>
+          <span class="brand__tag">Islas del Paraná · Santa Fe</span>
         </div>
-        <a href="https://wa.me/5493482632269?text=Hola!%20Quiero%20consultar%20por%20la%20caba%C3%B1a%20en%20la%20isla%20%F0%9F%8F%9D%EF%B8%8F.%20Fechas%20tentativas:%20__/__/____%20a%20__/__/____.%20Somos%20__%20personas.%20%C2%BFDisponibilidad%20y%20precio?" 
-           class="inline-flex items-center gap-2 rounded-2xl px-4 py-2 bg-emerald-500/90 hover:bg-emerald-500 text-slate-900 font-semibold shadow-lg shadow-emerald-500/20 transition">
-          Reservar por WhatsApp
-        </a>
+      </a>
+      <div class="nav__spacer"></div>
+      <div class="nav__links" id="navLinks">
+        <a href="#cabanas">Cabañas</a>
+        <a href="#actividades">Actividades</a>
+        <a href="#reservas" class="cta">Reservas</a>
       </div>
-    </header>
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+    </div>
+  </nav>
 
-    <!-- HERO -->
-    <section class="relative isolate overflow-hidden">
-      <div class="absolute inset-0 -z-10">
-        <img src="./images/hero.jpg" alt="Río Paraná y cabaña" class="h-full w-full object-cover opacity-70">
-        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/60 to-slate-900"></div>
+  <header class="hero" id="inicio">
+    <div class="hero__bg"></div>
+    <div class="hero__wrap">
+      <div>
+        <div class="kicker">Naturaleza · Pesca deportiva · Descanso</div>
+        <h1>Viví las islas del Paraná en <em>Aguara Lodge</em></h1>
+        <p class="lead">Cabañas cómodas construidas en familia, rodeadas de monte nativo y costa. Amaneceres de río, atardeceres rojos, noches de estrellas. Todo listo para disfrutar, pescar y desconectar.</p>
+        <div class="hero__actions">
+          <a class="btn btn--filled" href="#reservas">Consultar disponibilidad</a>
+          <a class="btn btn--wood" href="#cabanas">Ver cabañas</a>
+        </div>
       </div>
-      <div class="max-w-6xl mx-auto px-4 py-20 md:py-28">
-        <div class="max-w-2xl">
-          <p class="text-emerald-300 uppercase tracking-widest text-xs mb-3">Islas del Paraná · Norte de Santa Fe</p>
-          <h2 class="font-display text-3xl md:text-5xl font-extrabold leading-tight mb-4">
-            Desconectá en la naturaleza, <span class="text-transparent bg-clip-text river-gradient">viví la isla</span>
-          </h2>
-          <p class="text-slate-200/90 md:text-lg">
-            Emprendimiento familiar desde 2018. Construimos con nuestras manos y corazón un espacio único
-            para descansar, pescar y compartir. Te esperamos con costa propia, muelle y la calidez de siempre.
-          </p>
-          <div class="mt-6 flex flex-wrap gap-3">
-            <a href="https://wa.me/5493482632269?text=Hola!%20Quiero%20consultar%20por%20la%20caba%C3%B1a%20en%20la%20isla%20%F0%9F%8F%9D%EF%B8%8F.%20Fechas%20tentativas:%20__/__/____%20a%20__/__/____.%20Somos%20__%20personas.%20%C2%BFDisponibilidad%20y%20precio?"
-               class="rounded-2xl px-5 py-3 bg-emerald-500 text-slate-900 font-bold shadow-lg hover:shadow-emerald-500/30 transition">
-              Consultar disponibilidad
-            </a>
-            <a href="#galeria" class="rounded-2xl px-5 py-3 border border-emerald-500/60 hover:border-emerald-400/90 text-emerald-300">
-              Ver galería
-            </a>
+      <figure class="hero__card">
+        <img class="hero__img" src="assets/hero.jpg" alt="Atardecer con mate frente al río" loading="eager" />
+        <figcaption class="hero__caption">Islas del Paraná · Norte de Santa Fe</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <section id="cabanas">
+    <div class="wrap">
+      <div class="section__title">
+        <h2>Nuestras cabañas</h2>
+        <p>Espacios cálidos con detalles en madera, galerías amplias y todo lo necesario para tu estadía en las islas.</p>
+      </div>
+      <div class="gallery" id="gallery">
+        <article class="card">
+          <img src="assets/gal1.jpg" alt="Muelle y lanchas frente al río" />
+          <div class="card__body">
+            <span class="badge">Hasta 4 huéspedes</span>
+            <h3>Cabaña Lapacho</h3>
+            <p>Ambiente integrado, deck con vista, parrillero y fogón.</p>
+          </div>
+        </article>
+        <article class="card">
+          <img src="assets/gal2.jpg" alt="Asado y fogón bajo los árboles" />
+          <div class="card__body">
+            <span class="badge">Hasta 5 huéspedes</span>
+            <h3>Cabaña Timbó</h3>
+            <p>Dormitorio principal, entrepiso, aire acondicionado y cocina equipada.</p>
+          </div>
+        </article>
+        <article class="card">
+          <img src="assets/gal3.jpg" alt="Cabaña y galería con sombra" />
+          <div class="card__body">
+            <span class="badge">Vista al río</span>
+            <h3>Cabaña Ceibo</h3>
+            <p>Galería amplia, hamacas, espacio para lanchas y muelle cercanos.</p>
+          </div>
+        </article>
+        <article class="card">
+          <img src="assets/gal4.jpg" alt="Sendero a la costa con portón" />
+          <div class="card__body">
+            <span class="badge">Acceso a la costa</span>
+            <h3>Camino de piedra</h3>
+            <p>Salida directa al río entre árboles nativos.</p>
+          </div>
+        </article>
+        <article class="card">
+          <img src="assets/gal5.jpg" alt="Puesta de sol sobre el río" />
+          <div class="card__body">
+            <span class="badge">Amaneceres & atardeceres</span>
+            <h3>Cielo de isla</h3>
+            <p>Colores únicos para cerrar el día junto al agua.</p>
+          </div>
+        </article>
+        <article class="card">
+          <img src="assets/gal6.jpg" alt="Mono carayá en el monte" />
+          <div class="card__body">
+            <span class="badge">Naturaleza</span>
+            <h3>Fauna autóctona</h3>
+            <p>Posibles avistajes de carayás, aves y más.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="actividades">
+    <div class="wrap">
+      <div class="section__title">
+        <h2>Actividades</h2>
+        <p>Elegí tu ritmo: pesca deportiva, paseos por arroyos, avistaje de aves o simplemente descansar bajo los algarrobos.</p>
+      </div>
+      <div class="grid-3">
+        <div class="feature">
+          <span class="badge">Pesca deportiva</span>
+          <h3>Dorados y surubíes</h3>
+          <p>Coordinamos salidas con guías locales. Temporadas, carnadas y equipos recomendados.</p>
+        </div>
+        <div class="feature">
+          <span class="badge">Navegación</span>
+          <h3>Paseos por riachos</h3>
+          <p>Recorridos tranquilos para conocer lagunas, bancos de arena y miradores naturales.</p>
+        </div>
+        <div class="feature">
+          <span class="badge">Relax</span>
+          <h3>Fogón y mate</h3>
+          <p>Espacios pensados para compartir: parrilla, fogonero, juegos y siesta de isla.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reservas">
+    <div class="wrap">
+      <div class="section__title">
+        <h2>Reservas & Contacto</h2>
+        <p>Contanos fechas, cantidad de personas y si vienen a pescar. Te respondemos por WhatsApp.</p>
+      </div>
+      <div class="contact">
+        <div class="contact__panel">
+          <form id="formReserva" aria-label="Formulario de consulta">
+            <div class="row">
+              <div>
+                <label for="nombre">Nombre</label>
+                <input id="nombre" name="nombre" type="text" placeholder="Tu nombre" required />
+              </div>
+              <div>
+                <label for="personas">Personas</label>
+                <select id="personas" name="personas">
+                  <option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div>
+                <label for="ingreso">Ingreso</label>
+                <input id="ingreso" name="ingreso" type="date" required />
+              </div>
+              <div>
+                <label for="egreso">Egreso</label>
+                <input id="egreso" name="egreso" type="date" required />
+              </div>
+            </div>
+            <div class="row">
+              <div>
+                <label for="actividad">Actividad principal</label>
+                <select id="actividad" name="actividad">
+                  <option>Descanso</option>
+                  <option>Pesca deportiva</option>
+                  <option>Paseos / Navegación</option>
+                  <option>Mixta</option>
+                </select>
+              </div>
+              <div>
+                <label for="tel">Teléfono (opcional)</label>
+                <input id="tel" name="tel" type="tel" placeholder="3482 632269" />
+              </div>
+            </div>
+            <div>
+              <label for="mensaje">Mensaje</label>
+              <textarea id="mensaje" name="mensaje" rows="4" placeholder="Contanos si necesitás guía de pesca, si traen embarcación, etc."></textarea>
+              <p class="helper">Al enviar, abriremos WhatsApp para completar la consulta.</p>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+              <button type="submit" class="btn btn--filled">Enviar por WhatsApp</button>
+              <a class="btn" href="https://wa.me/543482632269" target="_blank" rel="noopener">Escribir directo</a>
+            </div>
+          </form>
+        </div>
+        <div>
+          <div class="feature" style="height:100%">
+            <span class="badge">¿Cómo llegar?</span>
+            <h3>Zona de islas · Norte de Santa Fe</h3>
+            <p>Coordinamos el punto de encuentro y el cruce en lancha según el nivel del río y el clima.</p>
+            <div style="border-radius:14px;overflow:hidden;border:1px solid rgba(0,0,0,.1);box-shadow:var(--sombra)">
+              <img src="assets/hero.jpg" alt="Río y vegetación de humedal" style="display:block;width:100%;aspect-ratio:4/3;object-fit:cover">
+            </div>
+            <p class="helper" style="margin-top:10px">WhatsApp: <strong>3482 632269</strong></p>
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- FEATURES -->
-    <section class="max-w-6xl mx-auto px-4 py-14" id="por-que">
-      <h3 class="text-2xl md:text-3xl font-bold mb-8">¿Por qué elegirnos?</h3>
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="card-feature">
-          <div class="icon-box"></div>
-          <h4 class="feature-title">Costa y muelle propios</h4>
-          <p class="feature-text">Ideal para pesca deportiva y salidas en lancha. Atardeceres increíbles frente al Paraná.</p>
-        </div>
-        <div class="card-feature">
-          <div class="icon-box"></div>
-          <h4 class="feature-title">Confort y simpleza</h4>
-          <p class="feature-text">Cabaña equipada, parrilla y quincho. Pensada para descansar y disfrutar.</p>
-        </div>
-        <div class="card-feature">
-          <div class="icon-box"></div>
-          <h4 class="feature-title">Acceso y guía</h4>
-          <p class="feature-text">Traslado en lancha desde la costa y opción de guía de pesca (consultar).</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- GALERÍA -->
-    <section class="max-w-6xl mx-auto px-4 py-14" id="galeria">
-      <div class="flex items-end justify-between mb-6">
-        <h3 class="text-2xl md:text-3xl font-bold">Galería</h3>
-        <span class="text-slate-400 text-sm">Click para ampliar</span>
-      </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-        <button class="gallery-item"><img src="./images/cabana-1.jpg" alt="Cabaña 1"></button>
-        <button class="gallery-item"><img src="./images/cabana-2.jpg" alt="Cabaña 2"></button>
-        <button class="gallery-item"><img src="./images/cabana-3.jpg" alt="Cabaña 3"></button>
-        <button class="gallery-item"><img src="./images/cabana-4.jpg" alt="Cabaña 4"></button>
-        <button class="gallery-item"><img src="./images/cabana-5.jpg" alt="Cabaña 5"></button>
-        <button class="gallery-item"><img src="./images/cabana-6.jpg" alt="Cabaña 6"></button>
-      </div>
-    </section>
-
-    <!-- LIGHTBOX -->
-    <div id="lightbox" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm items-center justify-center p-4">
-      <img id="lightbox-img" src="" alt="Foto ampliada" class="max-h-[85vh] max-w-[95vw] rounded-xl shadow-2xl" />
     </div>
+  </section>
 
-    <!-- TARIFAS -->
-    <section class="max-w-6xl mx-auto px-4 py-14" id="tarifas">
-      <h3 class="text-2xl md:text-3xl font-bold mb-6">Tarifas</h3>
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="card-pricing">
-          <h4 class="text-xl font-semibold mb-1">Entre semana</h4>
-          <p class="price">$____ / noche</p>
-          <p class="text-slate-300 mb-4">Precio para hasta 2/3 personas. Mínimo 2 noches.</p>
-          <a href="https://wa.me/5493482632269?text=Hola!%20Quiero%20consultar%20por%20la%20caba%C3%B1a%20entre%20semana."
-             class="btn-wa">Pedir cotización</a>
-        </div>
-        <div class="card-pricing">
-          <h4 class="text-xl font-semibold mb-1">Finde largo</h4>
-          <p class="price">$____ / noche</p>
-          <p class="text-slate-300 mb-4">Consulta por paquetes especiales y pesca guiada.</p>
-          <a href="https://wa.me/5493482632269?text=Hola!%20Quiero%20consultar%20por%20el%20pack%20finde%20largo."
-             class="btn-wa">Pedir cotización</a>
-        </div>
-        <div class="card-pricing">
-          <h4 class="text-xl font-semibold mb-1">Pack pesca</h4>
-          <p class="price">$____ / día</p>
-          <p class="text-slate-300 mb-4">Incluye guía + embarcación (sin equipos/combustible).</p>
-          <a href="https://wa.me/5493482632269?text=Hola!%20Quiero%20consultar%20por%20el%20pack%20pesca."
-             class="btn-wa">Pedir cotización</a>
-        </div>
+  <footer>
+    <div class="footer">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="brand__mark" aria-hidden="true" style="width:28px;height:28px"></div>
+        <strong>Aguara Lodge</strong>
       </div>
-    </section>
-
-    <!-- SERVICIOS -->
-    <section class="max-w-6xl mx-auto px-4 py-14" id="servicios">
-      <h3 class="text-2xl md:text-3xl font-bold mb-6">Servicios y comodidades</h3>
-      <ul class="grid md:grid-cols-2 gap-2 md:gap-3 text-slate-200/90">
-        <li class="li-dot">Cocina equipada (anafe, heladera, vajilla)</li>
-        <li class="li-dot">Aire acondicionado / calefacción</li>
-        <li class="li-dot">Parrilla y quincho techado</li>
-        <li class="li-dot">Dormitorios con sábanas y frazadas</li>
-        <li class="li-dot">Baño completo con agua caliente</li>
-        <li class="li-dot">Muelle propio y costa para pesca</li>
-        <li class="li-dot">Traslado en lancha (ida y vuelta)</li>
-        <li class="li-dot">Opción guía de pesca (adicional)</li>
-        <li class="li-dot">Se aceptan mascotas (consultar)</li>
-      </ul>
-    </section>
-
-    <!-- UBICACIÓN -->
-    <section class="max-w-6xl mx-auto px-4 py-14" id="ubicacion">
-      <h3 class="text-2xl md:text-3xl font-bold mb-4">Ubicación</h3>
-      <p class="text-slate-300 mb-4 max-w-3xl">
-        Estamos en las <strong>islas del río Paraná</strong>, en la región norte de Santa Fe. Te buscamos en la costa y te llevamos en lancha hasta la cabaña. 
-        Al reservar te compartimos el punto de encuentro y recomendaciones de equipaje.
-      </p>
-      <div class="rounded-2xl overflow-hidden border border-slate-800 shadow-inner">
-        <iframe title="Mapa Islas del Paraná" class="w-full h-[340px] md:h-[420px]" loading="lazy"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d53061.67971694053!2d-60.681!3d-29.140!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95b5f0b9a1caa0b3%3A0x9f0b1b2f2b0c7b0!2sIslas%20del%20Paran%C3%A1!5e0!3m2!1ses-419!2sar!4v1680000000000"
-          referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      <div class="socials">
+        <span class="pill">IG</span>
+        <span class="pill">FB</span>
+        <a class="pill" href="#reservas">WhatsApp</a>
       </div>
-    </section>
+      <small>© <span id="yy"></span> Aguara Lodge · Hecho en familia.</small>
+    </div>
+  </footer>
 
-    <!-- DISPONIBILIDAD (simple) -->
-    <section class="max-w-6xl mx-auto px-4 py-14" id="disponibilidad">
-      <h3 class="text-2xl md:text-3xl font-bold mb-4">Disponibilidad</h3>
-      <p class="text-slate-300 mb-4 max-w-3xl">
-        Usá el botón para escribirnos con tus fechas (ingreso/egreso) y cantidad de personas.
-      </p>
-      <div class="flex gap-3 flex-wrap">
-        <a href="https://wa.me/5493482632269?text=Hola!%20Quiero%20consultar%20disponibilidad%20para%20la%20caba%C3%B1a.%20Fechas:%20__/__/____%20a%20__/__/____.%20Personas:%20__"
-           class="btn-wa">Consultar por WhatsApp</a>
-      </div>
-    </section>
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Ampliar imagen">
+    <img alt="ampliada" />
+  </div>
 
-    <!-- CONTACTO con Google Forms (embed) -->
-    <section class="max-w-6xl mx-auto px-4 py-14" id="contacto">
-      <h3 class="text-2xl md:text-3xl font-bold mb-6">Formulario de contacto</h3>
-      <div class="rounded-2xl overflow-hidden border border-slate-800 shadow-inner">
-        <iframe src="https://docs.google.com/forms/d/1VxskIvicv-R-yB4OhuDqoDvHk9DygOh2vhwTQyEjB7w/viewform?embedded=true" width="100%" height="820" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
-      </div>
-      <p class="text-slate-400 text-sm mt-2">Si preferís, también podés escribir por WhatsApp.</p>
-      <div class="mt-4">
-        <a href="https://wa.me/5493482632269?text=Hola!%20Quiero%20hacer%20una%20consulta%20sobre%20la%20caba%C3%B1a."
-           class="btn-wa">Escribir por WhatsApp</a>
-      </div>
-    </section>
-
-    <section class="max-w-6xl mx-auto px-4 py-16" id="cta-final">
-      <div class="rounded-3xl border border-emerald-500/30 bg-slate-900/50 p-6 md:p-10 text-center shadow-[0_0_40px_rgba(16,185,129,0.15)]">
-        <h3 class="text-2xl md:text-3xl font-extrabold mb-2">¿Listo para vivir la isla?</h3>
-        <p class="text-slate-300 mb-6">Escribinos por WhatsApp y armamos tu estadía a medida (con o sin pesca guiada).</p>
-        <a href="https://wa.me/5493482632269?text=Hola!%20Quiero%20consultar%20por%20la%20caba%C3%B1a%20en%20la%20isla."
-           class="inline-flex rounded-2xl px-6 py-3 bg-emerald-500 text-slate-900 font-bold hover:opacity-95">
-          Reservar por WhatsApp
-        </a>
-      </div>
-      <p class="text-center text-slate-500 text-sm mt-6">© 2025 • Emprendimiento familiar desde 2018 · Santa Fe, Argentina</p>
-    </section>
-
-    <script src="./script.js"></script>
-  </body>
+  <script src="app.js"></script>
+</body>
 </html>
