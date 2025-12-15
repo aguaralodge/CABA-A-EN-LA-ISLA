@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin | Aguará Lodge</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="robots" content="noindex,nofollow" />
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html#inicio">Aguará Lodge</a>
+      <div class="nav-actions">
+        <a class="btn ghost" href="index.html#reservas">Volver</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="container" style="padding-top:24px; padding-bottom:60px;">
+    <section class="card">
+      <h1 style="margin:0 0 6px 0;">Panel admin (bloquear fechas)</h1>
+      <p style="margin:0 0 18px 0; opacity:.85;">Bloqueo manual para reservas en efectivo o por fuera del pago online.</p>
+
+      <div class="grid" style="gap:14px;">
+        <div class="card" style="padding:14px;">
+          <h3 style="margin:0 0 10px 0;">Acceso</h3>
+          <label class="lbl">Contraseña</label>
+          <input id="adminPass" class="inp" type="password" placeholder="••••••••" autocomplete="current-password" />
+          <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+            <button id="btnLogin" class="btn">Guardar sesión</button>
+            <button id="btnLogout" class="btn ghost">Cerrar sesión</button>
+          </div>
+          <p id="authStatus" style="margin:10px 0 0 0; font-size:.95rem; opacity:.85;"></p>
+        </div>
+
+        <div class="card" style="padding:14px;">
+          <h3 style="margin:0 0 10px 0;">Bloquear fecha</h3>
+
+          <div class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px;">
+            <div>
+              <label class="lbl">Check-in</label>
+              <input id="checkin" class="inp" type="date" />
+            </div>
+            <div>
+              <label class="lbl">Check-out</label>
+              <input id="checkout" class="inp" type="date" />
+            </div>
+            <div>
+              <label class="lbl">Personas</label>
+              <input id="personas" class="inp" type="number" min="1" value="6" />
+            </div>
+            <div>
+              <label class="lbl">Nombre (opcional)</label>
+              <input id="nombre" class="inp" type="text" placeholder="Ej: Juan Pérez" />
+            </div>
+            <div>
+              <label class="lbl">Tel (opcional)</label>
+              <input id="tel" class="inp" type="text" placeholder="Ej: 3482..." />
+            </div>
+            <div>
+              <label class="lbl">Nota interna (opcional)</label>
+              <input id="nota" class="inp" type="text" placeholder="Ej: paga en efectivo" />
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:12px; padding:12px;">
+            <div style="display:flex; gap:14px; flex-wrap:wrap;">
+              <div><strong>Noches:</strong> <span id="noches">0</span></div>
+              <div><strong>Total estimado:</strong> $<span id="total">0</span></div>
+              <div><strong>Estado:</strong> <span id="estado">blocked</span></div>
+            </div>
+            <p style="margin:10px 0 0 0; opacity:.8; font-size:.95rem;">
+              El bloqueo guarda una reserva con estado <code>blocked</code> en Supabase (si está configurado).
+            </p>
+          </div>
+
+          <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+            <button id="btnBlock" class="btn">Bloquear fecha</button>
+            <button id="btnClear" class="btn ghost" type="button">Limpiar</button>
+          </div>
+
+          <p id="msg" style="margin:10px 0 0 0; font-size:.95rem;"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>
