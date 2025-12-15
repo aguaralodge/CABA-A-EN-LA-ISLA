@@ -1,130 +1,89 @@
-// Vercel Serverless Function: /api/create-preference
-// Requiere variables de entorno:
-// - MP_ACCESS_TOKEN (obligatoria)
-// Opcional:
-// - PUBLIC_SITE_URL (si querés forzar la URL pública en back_urls/notification_url)
+// Vercel Serverless Function: POST /api/create-preference
+// Env vars required:
+// - MP_ACCESS_TOKEN
+// Optional:
+// - PUBLIC_SITE_URL (e.g., https://aguaralodge.com)
 
-function money(n){ return Math.round(Number(n)||0); }
-
-function parseDate(v){
-  if(!v) return null;
-  const [y,m,d] = v.split('-').map(Number);
-  if(!y||!m||!d) return null;
-  return new Date(Date.UTC(y, m-1, d));
-}
-function diffNights(ci, co){
-  if(!ci || !co) return 0;
-  const ms = co.getTime() - ci.getTime();
-  return Math.round(ms / (1000*60*60*24));
+function json(res, status, body) {
+  res.statusCode = status;
+  res.setHeader("content-type", "application/json; charset=utf-8");
+  res.end(JSON.stringify(body));
 }
 
-function calcTotal(personas, noches){
-  const SENIA = 25000;
-  const BASE_NOCHE = 150000;
-  const EXTRA_PAX = 25000;
-
-  const p = Number(personas||0);
-  const n = Number(noches||0);
-  if(p<=0 || n<=0) return { total: 0, senia: SENIA, saldo: 0, porNoche: 0 };
-
-  const porNoche = BASE_NOCHE + Math.max(0, p - 6) * EXTRA_PAX;
-  const total = porNoche * n;
-  const saldo = Math.max(0, total - SENIA);
-  return { total, senia: SENIA, saldo, porNoche };
+function siteUrl(req){
+  const env = process.env.PUBLIC_SITE_URL;
+  if(env && /^https?:\/\//.test(env)) return env.replace(/\/+$/,'');
+  const proto = (req.headers["x-forwarded-proto"] || "https").split(",")[0].trim();
+  const host = (req.headers["x-forwarded-host"] || req.headers.host || "").split(",")[0].trim();
+  return `${proto}://${host}`;
 }
 
-function getBaseUrl(req){
-  const forced = process.env.PUBLIC_SITE_URL;
-  if(forced) return forced.replace(/\/$/,'');
-  const proto = (req.headers['x-forwarded-proto'] || 'https').toString();
-  const host = (req.headers['x-forwarded-host'] || req.headers.host || '').toString();
-  return `${proto}://${host}`.replace(/\/$/,'');
+function makeRef(){
+  const r = Math.random().toString(16).slice(2);
+  return `WEB-${Date.now()}-${r}`;
 }
 
 module.exports = async (req, res) => {
-  if(req.method === 'OPTIONS'){
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    return res.status(204).end();
-  }
-  if(req.method !== 'POST') return res.status(405).json({ error: 'Método no permitido' });
+  if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
 
   const token = process.env.MP_ACCESS_TOKEN;
-  if(!token) return res.status(500).json({ error: 'Falta MP_ACCESS_TOKEN en variables de entorno.' });
+  if (!token) return json(res, 500, { error: "MP_ACCESS_TOKEN no configurado en Vercel" });
 
-  try{
-    const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
-    const { checkin, checkout, personas, nombre, email, tel } = body;
+  let body = "";
+  req.on("data", (c) => (body += c));
+  req.on("end", async () => {
+    let data;
+    try { data = JSON.parse(body || "{}"); } catch { return json(res, 400, { error: "JSON inválido" }); }
 
-    if(!checkin || !checkout || !personas || !nombre || !email){
-      return res.status(400).json({ error: 'Faltan datos (fechas, personas, nombre, email).' });
-    }
-
-    const ci = parseDate(checkin);
-    const co = parseDate(checkout);
-    const noches = diffNights(ci, co);
-    if(noches < 1) return res.status(400).json({ error: 'La estadía mínima es 1 noche (revisá ingreso/egreso).' });
-
-    const pricing = calcTotal(personas, noches);
-    const baseUrl = getBaseUrl(req);
-    const ref = `AGUARA-${Date.now()}-${Math.random().toString(16).slice(2,8).toUpperCase()}`;
+    const ref = makeRef();
+    const base = siteUrl(req);
+    const senia = 25000;
 
     const preference = {
-      items: [{
-        title: `Seña Aguara Lodge (reserva ${noches} noche${noches>1?'s':''})`,
-        quantity: 1,
-        unit_price: money(pricing.senia),
-        currency_id: 'ARS'
-      }],
-      payer: { name: String(nombre).slice(0,60), email: String(email).slice(0,120) },
-      back_urls: {
-        success: `${baseUrl}/reserva-ok.html?ref=${encodeURIComponent(ref)}`,
-        pending: `${baseUrl}/reserva-pendiente.html?ref=${encodeURIComponent(ref)}`,
-        failure: `${baseUrl}/reserva-fallo.html?ref=${encodeURIComponent(ref)}`
-      },
-      auto_return: 'approved',
-      notification_url: `${baseUrl}/api/webhook-mercadopago`,
+      items: [
+        {
+          title: "Seña de reserva - Aguara Lodge",
+          quantity: 1,
+          unit_price: senia,
+          currency_id: "ARS"
+        }
+      ],
       external_reference: ref,
       metadata: {
         ref,
-        checkin,
-        checkout,
-        noches,
-        personas: Number(personas),
-        nombre,
-        email,
-        tel: tel || '',
-        total: money(pricing.total),
-        saldo: money(pricing.saldo),
-        por_noche: money(pricing.porNoche)
-      }
+        nombre: data.nombre || "",
+        email: data.email || "",
+        tel: data.tel || "",
+        personas: data.personas || null,
+        checkin: data.checkin || "",
+        checkout: data.checkout || "",
+        noches: data.noches || null,
+        total: data.total || null,
+        senia: senia
+      },
+      back_urls: {
+        success: `${base}/reserva-ok.html?ref=${encodeURIComponent(ref)}`,
+        pending: `${base}/reserva-pendiente.html?ref=${encodeURIComponent(ref)}`,
+        failure: `${base}/reserva-fallo.html?ref=${encodeURIComponent(ref)}`
+      },
+      auto_return: "approved",
+      notification_url: `${base}/api/webhook-mercadopago`
     };
 
-    const mpRes = await fetch('https://api.mercadopago.com/checkout/preferences', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(preference)
-    });
-
-    const data = await mpRes.json();
-    if(!mpRes.ok){
-      console.error('MP preference error', data);
-      return res.status(502).json({ error: 'Mercado Pago rechazó la preferencia.', detail: data });
+    try {
+      const r = await fetch("https://api.mercadopago.com/checkout/preferences", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(preference)
+      });
+      const j = await r.json();
+      if (!r.ok) return json(res, 400, { error: j?.message || "Error Mercado Pago", details: j });
+      return json(res, 200, { init_point: j.init_point, sandbox_init_point: j.sandbox_init_point, ref });
+    } catch (e) {
+      return json(res, 500, { error: "Error conectando con Mercado Pago", details: String(e?.message || e) });
     }
-
-    return res.status(200).json({
-      init_point: data.init_point,
-      id: data.id,
-      ref,
-      senia: pricing.senia
-    });
-
-  }catch(err){
-    console.error(err);
-    return res.status(500).json({ error: 'Error interno', detail: err?.message });
-  }
+  });
 };

@@ -19,7 +19,7 @@
   function calc() {
     const checkin = $("checkin").value ? new Date($("checkin").value + "T00:00:00") : null;
     const checkout = $("checkout").value ? new Date($("checkout").value + "T00:00:00") : null;
-    const personas = Math.max(1, parseInt($("personas").value || "1", 10));
+    const personas = Math.min(12, Math.max(1, parseInt($("personas").value || "1", 10)));
     let noches = 0;
     if (checkin && checkout) {
       const ms = checkout.getTime() - checkin.getTime();

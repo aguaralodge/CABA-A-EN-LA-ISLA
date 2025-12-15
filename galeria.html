@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Galería · Aguara Lodge</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__wrap">
+      <a href="index.html#inicio" class="brand" aria-label="Aguara Lodge - ir al inicio">
+        <div class="brand__mark" id="logoBox" aria-hidden="true"></div>
+        <div class="brand__txt">
+          <span class="brand__name">Aguara Lodge</span>
+          <span class="brand__tag">Islas del Paraná · Santa Fe</span>
+        </div>
+      </a>
+      <div class="nav__spacer"></div>
+      <div class="nav__links" id="navLinks">
+        <a href="index.html#cabanas">Cabañas</a>
+        <a href="index.html#actividades">Actividades</a>
+        <a href="galeria.html" class="cta">Galería</a>
+        <a href="index.html#reservas">Reservas</a>
+      </div>
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+    </div>
+  </nav>
+
+  <header class="section" style="padding-top:110px">
+    <div class="wrap">
+      <div class="section__title">
+        <h2>Galería</h2>
+        <p class="muted">Fotos del alojamiento y el entorno. Tocá una imagen para ampliar.</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="gallery">
+        <button class="card gallery-item" type="button" aria-label="Abrir foto 1">
+              <img src="assets/gal1.jpg" alt="Aguara Lodge foto 1" loading="lazy" />
+            </button><button class="card gallery-item" type="button" aria-label="Abrir foto 2">
+              <img src="assets/gal2.jpg" alt="Aguara Lodge foto 2" loading="lazy" />
+            </button><button class="card gallery-item" type="button" aria-label="Abrir foto 3">
+              <img src="assets/gal3.jpg" alt="Aguara Lodge foto 3" loading="lazy" />
+            </button><button class="card gallery-item" type="button" aria-label="Abrir foto 4">
+              <img src="assets/gal4.jpg" alt="Aguara Lodge foto 4" loading="lazy" />
+            </button><button class="card gallery-item" type="button" aria-label="Abrir foto 5">
+              <img src="assets/gal5.jpg" alt="Aguara Lodge foto 5" loading="lazy" />
+            </button><button class="card gallery-item" type="button" aria-label="Abrir foto 6">
+              <img src="assets/gal6.jpg" alt="Aguara Lodge foto 6" loading="lazy" />
+            </button><button class="card gallery-item" type="button" aria-label="Abrir foto 7">
+              <img src="images/cabana-1.jpg" alt="Aguara Lodge foto 7" loading="lazy" />
+            </button><button class="card gallery-item" type="button" aria-label="Abrir foto 8">
+              <img src="images/cabana-2.jpg" alt="Aguara Lodge foto 8" loading="lazy" />
+            </button><button class="card gallery-item" type="button" aria-label="Abrir foto 9">
+              <img src="images/cabana-3.jpg" alt="Aguara Lodge foto 9" loading="lazy" />
+            </button><button class="card gallery-item" type="button" aria-label="Abrir foto 10">
+              <img src="images/cabana-4.jpg" alt="Aguara Lodge foto 10" loading="lazy" />
+            </button><button class="card gallery-item" type="button" aria-label="Abrir foto 11">
+              <img src="images/cabana-5.jpg" alt="Aguara Lodge foto 11" loading="lazy" />
+            </button><button class="card gallery-item" type="button" aria-label="Abrir foto 12">
+              <img src="images/cabana-6.jpg" alt="Aguara Lodge foto 12" loading="lazy" />
+            </button>
+      </div>
+
+      <div class="section__title" style="margin-top:18px">
+        <a class="btn btn--wood" href="index.html#reservas">Ir a Reservas</a>
+        <a class="btn" href="index.html#inicio" style="margin-left:10px">Volver al inicio</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox hidden" role="dialog" aria-label="Imagen ampliada">
+    <img id="lightbox-img" alt="Imagen ampliada" />
+  </div>
+
+  <script src="app.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

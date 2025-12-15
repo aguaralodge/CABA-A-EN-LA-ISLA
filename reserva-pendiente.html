@@ -1,29 +1,16 @@
 <!doctype html>
-<html lang="es"><head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Pago pendiente | Aguara Lodge</title>
-<link rel="stylesheet" href="style.css">
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pago pendiente</title>
+  <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-  <div class="wrap" style="padding:28px 16px">
-    <a class="pill" href="index.html">← Volver</a>
-    <div class="card" style="margin-top:14px;padding:18px;border-radius:18px;background:#fff;box-shadow:var(--sombra);border:1px solid rgba(0,0,0,.08)">
-      <h1 style="margin:0 0 8px;font-family:'Playfair Display',serif">Pago pendiente ⏳</h1>
-      <p class="muted">Tu pago quedó pendiente. Si se acredita, te confirmamos automáticamente. Si querés acelerar, escribinos por WhatsApp con el código.</p>
-      <p class="helper">Código de referencia: <strong id="ref"></strong></p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-        <a class="btn btn--filled" id="wa" href="#" target="_blank" rel="noopener">Escribir por WhatsApp</a>
-        <a class="btn" href="index.html#reservas">Ver precios</a>
-      </div>
-      <p class="helper" style="margin-top:12px">Si no te llega el mensaje, escribinos con el código. Gracias 🙌</p>
-    </div>
+  <div class="wrap" style="padding:40px 16px;max-width:900px">
+    <h1 style="margin:0 0 10px">Pago pendiente</h1>
+    <p style="opacity:.9;max-width:60ch">El pago quedó pendiente. En cuanto se apruebe, se confirmará la reserva automáticamente. Si querés, escribinos por WhatsApp con tu nombre y fechas.</p>
+    <p style="margin-top:18px"><a class="btn btn--filled" href="/#reservas">Volver a Reservas</a></p>
   </div>
-<script>
-  const p = new URLSearchParams(location.search);
-  const ref = p.get('ref') || '-';
-  document.getElementById('ref').textContent = ref;
-  const waNumber = '5493482632269';
-  const msg = encodeURIComponent(`Hola Aguara Lodge! Pagué la seña y quiero confirmar la reserva. Mi código es ${ref}.`);
-  document.getElementById('wa').href = `https://wa.me/${waNumber}?text=${msg}`;
-</script>
-</body></html>
+</body>
+</html>

@@ -63,3 +63,15 @@ footer{padding:26px 16px;background:linear-gradient(180deg, rgba(0,0,0,.04), rgb
 .lightbox img{max-width:min(1100px,92vw);max-height:80vh;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.5)}
 @media (max-width: 980px){ .hero__wrap{grid-template-columns:1fr} .contact{grid-template-columns:1fr} .grid-3{grid-template-columns:1fr} .card{grid-column:span 6} }
 @media (max-width: 640px){ .nav__links{display:none} .menu-btn{display:inline-block} .card{grid-column:span 12} .contact .row{grid-template-columns:1fr} }
+/* Reservas: calculadora */
+.calcbox{margin:14px 0 4px;padding:14px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(0,0,0,.18)}
+.calcbox__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.calcbox__grid div{padding:10px;border:1px solid rgba(255,255,255,.10);border-radius:12px;background:rgba(255,255,255,.04)}
+.calcbox__grid span{display:block;font-size:.85rem;opacity:.75}
+.calcbox__grid strong{display:block;font-size:1.05rem;margin-top:4px}
+@media (max-width: 720px){.calcbox__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* Galería (page) */
+.gallery-item{appearance:none;background:transparent;border:0;padding:0;text-align:left}
+.gallery-item:focus{outline:2px solid rgba(57,255,20,.55);outline-offset:4px;border-radius:16px}
