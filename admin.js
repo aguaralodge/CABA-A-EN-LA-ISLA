@@ -82,6 +82,7 @@
       }
 
       $("msg").textContent = `Listo ✅ Bloqueado (${data.ref || "sin ref"}).`;
+      try { await loadBlockedList(); } catch(e) {}
     } catch (e) {
       $("msg").textContent = "No se pudo bloquear: " + (e?.message || e);
     } finally {
@@ -112,6 +113,7 @@
     sessionStorage.setItem(KEY, pass);
     $("adminPass").value = "";
     setAuthStatus();
+    try { loadBlockedList(); } catch(e) {}
   });
 
   $("btnLogout").addEventListener("click", () => {
@@ -128,4 +130,95 @@
   // init
   setAuthStatus();
   calc();
+
+
+  
+
+
+
+  // ---- Listado y desbloqueo ----
+  function esc(s){
+    return String(s ?? '').replace(/[&<>"']/g, (c)=>({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  async function loadBlockedList(){
+    const listEl = document.getElementById('blockedList');
+    if(!listEl) return;
+    if(!state.pass){
+      listEl.innerHTML = '<div class="muted">Ingresá la contraseña para ver y gestionar los bloqueos.</div>';
+      return;
+    }
+    listEl.innerHTML = '<div class="muted">Cargando…</div>';
+    try{
+      const r = await fetch('/api/admin/list-blocked', {
+        headers: { 'x-admin-password': state.pass }
+      });
+      const j = await r.json().catch(()=>({}));
+      if(!r.ok) throw new Error(j.error || 'No se pudo cargar la lista');
+      const rows = Array.isArray(j.rows) ? j.rows : [];
+      if(rows.length === 0){
+        listEl.innerHTML = '<div class="muted">No hay fechas bloqueadas.</div>';
+        return;
+      }
+      let html = '';
+      html += '<table class="blocked-table"><thead><tr><th>Ingreso</th><th>Egreso</th><th>Personas</th><th>Total</th><th></th></tr></thead><tbody>';
+      for(const row of rows){
+        html += '<tr>';
+        html += '<td>' + esc(row.checkin || '') + '</td>';
+        html += '<td>' + esc(row.checkout || '') + '</td>';
+        html += '<td style="text-align:center">' + esc(row.personas ?? '') + '</td>';
+        html += '<td>' + esc(money(row.total ?? 0)) + '</td>';
+        html += '<td style="text-align:right"><button class="btn small" data-unblock="' + esc(row.id) + '">Desbloquear</button></td>';
+        html += '</tr>';
+      }
+      html += '</tbody></table>';
+      listEl.innerHTML = html;
+    }catch(e){
+      listEl.innerHTML = '<div class="muted">Error: ' + esc(e.message || e) + '</div>';
+    }
+  }
+
+  async function unblockById(id){
+    const r = await fetch('/api/admin/unblock-date', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-admin-password': state.pass
+      },
+      body: JSON.stringify({ id })
+    });
+    const j = await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(j.error || 'No se pudo desbloquear');
+    return j;
+  }
+
+  document.addEventListener('click', async (ev)=>{
+    const btn = ev.target.closest('button[data-unblock]');
+    if(!btn) return;
+    ev.preventDefault();
+    if(!state.pass){
+      alert('Ingresá la contraseña primero.');
+      return;
+    }
+    const id = btn.getAttribute('data-unblock');
+    if(!id) return;
+    if(!confirm('¿Desbloquear esta fecha para que vuelva a estar disponible?')) return;
+    btn.disabled = true;
+    try{
+      await unblockById(id);
+      await loadBlockedList();
+      const msg = document.getElementById('msg');
+      if(msg) msg.textContent = 'Fecha desbloqueada ✅';
+    }catch(e){
+      alert('No se pudo desbloquear: ' + (e.message || e));
+    }finally{
+      btn.disabled = false;
+    }
+  });
+
+  // Refresca la lista al cargar (si ya hay sesión guardada)
+  loadBlockedList();
+
 })();

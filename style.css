@@ -78,7 +78,35 @@ footer{padding:26px 16px;background:linear-gradient(180deg, rgba(0,0,0,.04), rgb
 
 
 /* Calendario reservas: fechas ocupadas/bloqueadas */
-.flatpickr-day.is-occupied, .flatpickr-day.disabled {
-  opacity: 0.35;
+.flatpickr-day.is-occupied {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
   cursor: not-allowed;
+}
+.flatpickr-day.is-occupied.flatpickr-disabled,
+.flatpickr-day.is-occupied.disabled {
+  opacity: 1 !important;
+}
+
+
+
+/* Admin: lista de bloqueos */
+.blocked-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+.blocked-table th, .blocked-table td{
+  padding:10px 8px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.blocked-table th{
+  text-align:left;
+  font-weight:600;
+  opacity:0.9;
+}
+.btn.small{
+  padding:8px 10px;
+  font-size:13px;
+  line-height:1;
 }
