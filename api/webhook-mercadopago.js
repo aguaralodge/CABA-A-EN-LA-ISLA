@@ -56,6 +56,7 @@ module.exports = async (req, res) => {
         const checkout = meta.checkout || null;
         const personas = meta.personas ? parseInt(meta.personas,10) : null;
         const noches = meta.noches ? parseInt(meta.noches,10) : null;
+        const notas = (meta.notas || '').toString();
         const total = meta.total ? parseInt(meta.total,10) : null;
         const senia = meta.senia ? parseInt(meta.senia,10) : 25000;
         const saldo = (total!=null) ? Math.max(0, total - senia) : null;
@@ -69,6 +70,7 @@ module.exports = async (req, res) => {
           nombre: meta.nombre || "",
           email: meta.email || "",
           tel: meta.tel || "",
+          notas: notas || "",
           total,
           senia,
           saldo,

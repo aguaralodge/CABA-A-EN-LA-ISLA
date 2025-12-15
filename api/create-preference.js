@@ -54,6 +54,7 @@ module.exports = async (req, res) => {
         nombre: data.nombre || "",
         email: data.email || "",
         tel: data.tel || "",
+        notas: data.notas || "",
         personas: data.personas || null,
         checkin: data.checkin || "",
         checkout: data.checkout || "",

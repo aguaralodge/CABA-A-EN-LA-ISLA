@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -172,11 +174,11 @@
             <div class="row">
               <div>
                 <label for="ingreso">Ingreso</label>
-                <input id="ingreso" name="ingreso" type="date" required />
+                <input id="ingreso" name="ingreso" type="text" inputmode="none" autocomplete="off" required />
               </div>
               <div>
                 <label for="egreso">Egreso</label>
-                <input id="egreso" name="egreso" type="date" required />
+                <input id="egreso" name="egreso" type="text" inputmode="none" autocomplete="off" required />
               </div>
             </div>
 
@@ -192,15 +194,9 @@
             </div>
 
             <div class="row">
-              <div>
-                <label for="actividad">Actividad principal</label>
-Actividad principal</label>
-                <select id="actividad" name="actividad">
-                  <option>Descanso</option>
-                  <option>Pesca deportiva</option>
-                  <option>Paseos / Navegación</option>
-                  <option>Mixta</option>
-                </select>
+              <div style="grid-column: 1 / -1;">
+                <label for="notas">Notas del huésped</label>
+                <textarea id="notas" name="notas" rows="3" placeholder="Ej: llegamos 18hs, llevamos mascota, necesitamos traslado, etc."></textarea>
               </div>
               <div>
                 <label for="tel">Teléfono (opcional)</label>
@@ -252,6 +248,7 @@ Actividad principal</label>
     <img alt="ampliada" />
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="app.js"></script>
 </body>
 </html>

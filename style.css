@@ -75,3 +75,10 @@ footer{padding:26px 16px;background:linear-gradient(180deg, rgba(0,0,0,.04), rgb
 /* Galería (page) */
 .gallery-item{appearance:none;background:transparent;border:0;padding:0;text-align:left}
 .gallery-item:focus{outline:2px solid rgba(57,255,20,.55);outline-offset:4px;border-radius:16px}
+
+
+/* Calendario reservas: fechas ocupadas/bloqueadas */
+.flatpickr-day.is-occupied, .flatpickr-day.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
