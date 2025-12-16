@@ -1,3 +1,26 @@
+
+// === LIGHTBOX INDEPENDIENTE (no interfiere con el resto) ===
+(function(){
+  document.addEventListener('click', function(e){
+    var img = e.target && (e.target.tagName === 'IMG' ? e.target : e.target.closest && e.target.closest('img'));
+    if(!img) return;
+    var gallery = img.closest && img.closest('.gallery');
+    if(!gallery) return;
+    var lb = document.getElementById('lightbox');
+    var lbImg = document.getElementById('lightbox-img') || (lb && lb.querySelector('img'));
+    if(!lb || !lbImg) return;
+    lbImg.src = img.currentSrc || img.src;
+    lb.classList.add('open');
+  });
+  var lb = document.getElementById('lightbox');
+  if(lb){
+    lb.addEventListener('click', function(){
+      lb.classList.remove('open');
+    });
+  }
+})();
+
+
 document.getElementById('yy')?.textContent = new Date().getFullYear();
 
 const menuBtn = document.getElementById('menuBtn');
