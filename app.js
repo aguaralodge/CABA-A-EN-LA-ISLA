@@ -6,7 +6,7 @@ menuBtn?.addEventListener('click',()=>{
 });
 const lightbox = document.getElementById('lightbox');
 const lightImg = lightbox ? lightbox.querySelector('img') : null;
-document.getElementById('gallery').addEventListener('click', (e)=>{
+(document.getElementById('gallery') || document.querySelector('.gallery'))?.addEventListener('click', (e)=>{
   if(!lightbox || !lightImg) return;   // ← ESTA LÍNEA NUEVA
   const img = e.target.closest('img'); 
   if(!img) return;
