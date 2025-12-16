@@ -1,4 +1,4 @@
-document.getElementById('yy').textContent = new Date().getFullYear();
+document.getElementById('yy')?.textContent = new Date().getFullYear();
 const menuBtn = document.getElementById('menuBtn');
 const navLinks = document.getElementById('navLinks');
 menuBtn?.addEventListener('click',()=>{
