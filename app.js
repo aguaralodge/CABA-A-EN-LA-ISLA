@@ -4,17 +4,31 @@ const navLinks = document.getElementById('navLinks');
 menuBtn?.addEventListener('click',()=>{
   navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
 });
-const lightbox = document.getElementById('lightbox');
-const lightImg = lightbox ? lightbox.querySelector('img') : null;
-(document.getElementById('gallery') || document.querySelector('.gallery'))?.addEventListener('click', (e)=>{
-  if(!lightbox || !lightImg) return;   // ← ESTA LÍNEA NUEVA
-  const img = e.target.closest('img'); 
-  if(!img) return;
-  lightImg.src = img.src; 
-  lightbox.classList.add('open');
-});
-lightbox.addEventListener('click', ()=> lightbox.classList.remove('open'));
+// --- Lightbox (home + galeria, a prueba de errores) ---
+const lightbox = document.getElementById('lightbox') || document.querySelector('.lightbox');
+const lightImg =
+  document.getElementById('lightbox-img') ||
+  (lightbox ? lightbox.querySelector('img') : null);
 
+const galleryRoot =
+  document.getElementById('gallery') ||
+  document.querySelector('.gallery') ||
+  document.querySelector('#inicio .gallery');
+
+if (galleryRoot && lightbox && lightImg) {
+  galleryRoot.addEventListener('click', (e) => {
+    const img = e.target.closest('img');
+    if (!img) return;
+
+    lightImg.src = img.currentSrc || img.src;
+    lightbox.classList.add('open');
+  });
+
+  lightbox.addEventListener('click', () => {
+    lightbox.classList.remove('open');
+    lightImg.src = '';
+  });
+}
 // --- Reservas: calculadora + pago de seña (Mercado Pago) ---
 const ingresoEl = document.getElementById('ingreso');
 const egresoEl = document.getElementById('egreso');
