@@ -21,7 +21,8 @@
 })();
 
 
-document.getElementById('yy')?.textContent = new Date().getFullYear();
+const yyEl = document.getElementById('yy');
+if (yyEl) yyEl.textContent = String(new Date().getFullYear());
 
 const menuBtn = document.getElementById('menuBtn');
 const navLinks = document.getElementById('navLinks');
