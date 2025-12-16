@@ -5,24 +5,28 @@ const navLinks = document.getElementById('navLinks');
 menuBtn?.addEventListener('click', () => {
   navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
 });
+// ===== LIGHTBOX DEFINITIVO =====
+document.addEventListener('click', (e) => {
+  const img = e.target.tagName === 'IMG'
+    ? e.target
+    : e.target.closest('img');
 
-// Lightbox (funciona en home y galeria)
-const lightbox = document.getElementById('lightbox') || document.querySelector('.lightbox');
-const lightImg = document.getElementById('lightbox-img') || (lightbox ? lightbox.querySelector('img') : null);
+  if (!img) return;
 
-// Agarra #gallery si existe, y si no, cualquier .gallery (home o galeria)
-const galleryEl = document.getElementById('gallery') || document.querySelector('.gallery');
+  const gallery = img.closest('.gallery');
+  if (!gallery) return;
 
-galleryEl?.addEventListener('click', (e) => {
-  const img = e.target.closest('img');
-  if (!img || !lightbox || !lightImg) return;
-  lightImg.src = img.currentSrc || img.src;
+  const lightbox = document.getElementById('lightbox');
+  const lightImg = document.getElementById('lightbox-img');
+
+  if (!lightbox || !lightImg) return;
+
+  lightImg.src = img.src;
   lightbox.classList.add('open');
 });
 
-lightbox?.addEventListener('click', () => {
-  lightbox.classList.remove('open');
-  if (lightImg) lightImg.src = '';
+document.getElementById('lightbox')?.addEventListener('click', () => {
+  document.getElementById('lightbox').classList.remove('open');
 });
 
 // --- Reservas: calculadora + pago de seña (Mercado Pago) ---
