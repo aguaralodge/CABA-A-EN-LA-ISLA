@@ -5,10 +5,13 @@ menuBtn?.addEventListener('click',()=>{
   navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
 });
 const lightbox = document.getElementById('lightbox');
-const lightImg = lightbox.querySelector('img');
+const lightImg = lightbox ? lightbox.querySelector('img') : null;
 document.getElementById('gallery').addEventListener('click', (e)=>{
-  const img = e.target.closest('img'); if(!img) return;
-  lightImg.src = img.src; lightbox.classList.add('open');
+  if(!lightbox || !lightImg) return;   // ← ESTA LÍNEA NUEVA
+  const img = e.target.closest('img'); 
+  if(!img) return;
+  lightImg.src = img.src; 
+  lightbox.classList.add('open');
 });
 lightbox.addEventListener('click', ()=> lightbox.classList.remove('open'));
 
