@@ -1,4 +1,3 @@
-
 // === LIGHTBOX INDEPENDIENTE (no interfiere con el resto) ===
 (function(){
   document.addEventListener('click', function(e){
@@ -20,7 +19,6 @@
   }
 })();
 
-
 const yyEl = document.getElementById('yy');
 if (yyEl) yyEl.textContent = String(new Date().getFullYear());
 
@@ -29,6 +27,7 @@ const navLinks = document.getElementById('navLinks');
 menuBtn?.addEventListener('click', () => {
   navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
 });
+
 // ===== LIGHTBOX DEFINITIVO =====
 document.addEventListener('click', (e) => {
   const img = e.target.tagName === 'IMG'
@@ -64,6 +63,15 @@ const outSaldo = document.getElementById('calcSaldo');
 
 if (ingresoEl && egresoEl && personasEl && payBtn && outNoches && outTotal && outSaldo) {
 
+  const CFG = window.AGUARA_CONFIG || {
+    precioBaseNoche: 150000,
+    personasIncluidas: 6,
+    precioExtraPorPersona: 25000,
+    senia: 25000
+  };
+
+  const SENIA = Number(CFG.senia || 0);
+
   // Fechas ocupadas (reservas aprobadas + bloqueos manuales)
   let occupied = new Set();
 
@@ -73,6 +81,7 @@ if (ingresoEl && egresoEl && personasEl && payBtn && outNoches && outTotal && ou
     const da = String(d.getDate()).padStart(2, '0');
     return `${y}-${m}-${da}`;
   }
+
   function addRange(checkin, checkout) {
     if (!checkin || !checkout) return;
     const start = new Date(checkin + "T00:00:00");
@@ -100,7 +109,7 @@ if (ingresoEl && egresoEl && personasEl && payBtn && outNoches && outTotal && ou
       if (!r.ok) return;
       const data = await r.json();
       (data?.ranges || []).forEach(x => addRange(x.checkin, x.checkout));
-    } catch (e) { }
+    } catch (e) {}
   }
 
   function isOccupied(date) {
@@ -110,6 +119,7 @@ if (ingresoEl && egresoEl && personasEl && payBtn && outNoches && outTotal && ou
 
   function initPickers() {
     if (!window.flatpickr) return;
+
     const common = {
       dateFormat: "Y-m-d",
       disableMobile: true,
@@ -138,6 +148,7 @@ if (ingresoEl && egresoEl && personasEl && payBtn && outNoches && outTotal && ou
       onChange: function (selectedDates) {
         const sel = selectedDates?.[0];
         if (!sel) return;
+
         const minOut = new Date(sel);
         minOut.setDate(minOut.getDate() + 1);
         fpEgreso.set('minDate', minOut);
@@ -146,6 +157,7 @@ if (ingresoEl && egresoEl && personasEl && payBtn && outNoches && outTotal && ou
         if (outSel && outSel <= sel) {
           fpEgreso.clear();
         }
+
         recalc();
       }
     });
@@ -154,13 +166,23 @@ if (ingresoEl && egresoEl && personasEl && payBtn && outNoches && outTotal && ou
     window.__fpEgreso = fpEgreso;
   }
 
-  const SENIA = 25000;
-  loadOccupied().then(() => { initPickers(); recalc(); });
+  loadOccupied().then(() => {
+    initPickers();
+    recalc();
+  });
 
   function money(n) {
-    try { return n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }); }
-    catch { return '$' + String(n); }
+    try {
+      return n.toLocaleString('es-AR', {
+        style: 'currency',
+        currency: 'ARS',
+        maximumFractionDigits: 0
+      });
+    } catch {
+      return '$' + String(n);
+    }
   }
+
   function nights(checkin, checkout) {
     if (!checkin || !checkout) return 0;
     const a = new Date(checkin + 'T00:00:00');
@@ -168,19 +190,31 @@ if (ingresoEl && egresoEl && personasEl && payBtn && outNoches && outTotal && ou
     const ms = b.getTime() - a.getTime();
     return Math.round(ms / (1000 * 60 * 60 * 24));
   }
+
   function totalFor(personas, noches) {
-    const base = 150000;
-    const extra = Math.max(0, (personas || 1) - 6) * 25000;
+    const base = Number(CFG.precioBaseNoche || 0);
+    const incluidas = Number(CFG.personasIncluidas || 0);
+    const extraPorPersona = Number(CFG.precioExtraPorPersona || 0);
+    const extra = Math.max(0, (personas || 1) - incluidas) * extraPorPersona;
     return (base + extra) * Math.max(0, noches || 0);
   }
+
+  function updatePayButtonText() {
+    if (payBtn) {
+      payBtn.textContent = `Pagar seña ${money(SENIA)} y reservar`;
+    }
+  }
+
   function recalc() {
     const p = parseInt(personasEl?.value || '0', 10) || 0;
     const n = nights(ingresoEl?.value, egresoEl?.value);
     const total = totalFor(p, n);
     const saldo = Math.max(0, total - SENIA);
+
     if (outNoches) outNoches.textContent = n > 0 ? String(n) : '-';
     if (outTotal) outTotal.textContent = n > 0 ? money(total) : '-';
     if (outSaldo) outSaldo.textContent = n > 0 ? money(saldo) : '-';
+
     const occ = rangeHasOccupied(ingresoEl?.value, egresoEl?.value);
     if (payBtn) payBtn.disabled = !(n > 0 && p >= 1 && !occ);
   }
@@ -188,15 +222,20 @@ if (ingresoEl && egresoEl && personasEl && payBtn && outNoches && outTotal && ou
   ingresoEl?.addEventListener('change', recalc);
   egresoEl?.addEventListener('change', recalc);
   personasEl?.addEventListener('change', recalc);
+
+  updatePayButtonText();
   recalc();
 
   payBtn?.addEventListener('click', async () => {
     recalc();
+
     const p = parseInt(personasEl?.value || '0', 10) || 0;
     const checkin = ingresoEl?.value;
     const checkout = egresoEl?.value;
     const n = nights(checkin, checkout);
+
     if (!(n > 0 && p >= 1)) return;
+
     if (rangeHasOccupied(checkin, checkout)) {
       alert('Esas fechas ya están ocupadas o bloqueadas. Elegí otras, por favor.');
       return;
@@ -209,7 +248,8 @@ if (ingresoEl && egresoEl && personasEl && payBtn && outNoches && outTotal && ou
       email: (data.get('email') || '').toString(),
       notas: (data.get('notas') || '').toString().trim(),
       personas: p,
-      checkin, checkout,
+      checkin,
+      checkout,
       noches: n,
       total: totalFor(p, n),
       senia: SENIA
@@ -217,37 +257,42 @@ if (ingresoEl && egresoEl && personasEl && payBtn && outNoches && outTotal && ou
 
     payBtn.disabled = true;
     payBtn.textContent = 'Generando pago...';
+
     try {
       const r = await fetch('/api/create-preference', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(payload)
       });
+
       const j = await r.json();
       if (!r.ok) throw new Error(j?.error || 'No se pudo iniciar el pago');
+
       if (j?.init_point) {
         window.location.href = j.init_point;
         return;
       }
+
       throw new Error('Respuesta inválida de Mercado Pago');
     } catch (err) {
       alert(err?.message || 'Error al iniciar el pago');
       payBtn.disabled = false;
-      payBtn.textContent = 'Pagar seña $25.000 y reservar';
+      updatePayButtonText();
     }
   });
 
   const form = document.getElementById('formReserva');
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
+
     const data = new FormData(form);
     const nombre = data.get('nombre') || '';
     const personas = data.get('personas') || '';
     const ingreso = data.get('ingreso') || '';
     const egreso = data.get('egreso') || '';
     const tel = data.get('tel') || '';
-    const notas = (data.get('notas') || '').toString().trim();     // <- FIX
-    const mensaje = (data.get('mensaje') || '').toString().trim(); // puede no existir, no rompe
+    const notas = (data.get('notas') || '').toString().trim();
+    const mensaje = (data.get('mensaje') || '').toString().trim();
 
     const txt = `Hola Aguara Lodge!%0A%0A` +
       `Soy *${nombre}*. Quisiera consultar disponibilidad.%0A` +
