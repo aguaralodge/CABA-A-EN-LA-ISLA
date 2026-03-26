@@ -1,6 +1,6 @@
 window.AGUARA_CONFIG = {
-  precioBaseNoche: 170000,
+  precioBaseNoche: 150000,
   personasIncluidas: 6,
-  precioExtraPorPersona: 28000,
-  senia: 28000
+  precioExtraPorPersona: 25000,
+  senia: 30000
 };
