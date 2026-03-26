@@ -6,6 +6,14 @@
     pass: sessionStorage.getItem(KEY) || "",
   };
 
+  // 🔥 CONFIG GLOBAL
+  const CFG = window.AGUARA_CONFIG || {
+    precioBaseNoche: 150000,
+    personasIncluidas: 6,
+    precioExtraPorPersona: 25000,
+    senia: 25000
+  };
+
   function setAuthStatus() {
     const ok = !!state.pass;
     $("authStatus").textContent = ok
@@ -25,6 +33,7 @@
     const checkin = $("checkin").value
       ? new Date($("checkin").value + "T00:00:00")
       : null;
+
     const checkout = $("checkout").value
       ? new Date($("checkout").value + "T00:00:00")
       : null;
@@ -40,8 +49,9 @@
       noches = Math.max(0, Math.round(ms / (1000 * 60 * 60 * 24)));
     }
 
-    const base = 150000;
-    const extra = Math.max(0, personas - 6) * 25000;
+    // 🔥 NUEVO SISTEMA DE PRECIOS
+    const base = CFG.precioBaseNoche;
+    const extra = Math.max(0, personas - CFG.personasIncluidas) * CFG.precioExtraPorPersona;
     const total = (base + extra) * noches;
 
     $("noches").textContent = String(noches);
@@ -98,9 +108,11 @@
       }
 
       $("msg").textContent = `Listo ✅ Bloqueado (${data.ref || "sin ref"}).`;
+
       try {
         await loadBlockedList();
       } catch (e) {}
+
     } catch (e) {
       $("msg").textContent = "No se pudo bloquear: " + (e?.message || e);
     } finally {
@@ -172,8 +184,7 @@
 
       let html = "";
       html += '<table class="blocked-table">';
-      html +=
-        "<thead><tr><th>Ingreso</th><th>Egreso</th><th>Nombre</th><th>Personas</th><th>Total</th><th></th></tr></thead>";
+      html += "<thead><tr><th>Ingreso</th><th>Egreso</th><th>Nombre</th><th>Personas</th><th>Total</th><th></th></tr></thead>";
       html += "<tbody>";
 
       for (const row of rows) {
@@ -183,18 +194,15 @@
         html += "<td>" + esc(row.checkin || "") + "</td>";
         html += "<td>" + esc(row.checkout || "") + "</td>";
         html += "<td>" + esc(nombre || "-") + "</td>";
-        html +=
-          '<td style="text-align:center">' + esc(row.personas ?? "") + "</td>";
+        html += '<td style="text-align:center">' + esc(row.personas ?? "") + "</td>";
         html += "<td>" + esc(money(row.total ?? 0)) + "</td>";
-        html +=
-          '<td style="text-align:right"><button class="btn small" data-unblock="' +
-          esc(row.id) +
-          '">Desbloquear</button></td>';
+        html += '<td style="text-align:right"><button class="btn small" data-unblock="' + esc(row.id) + '">Desbloquear</button></td>';
         html += "</tr>";
       }
 
       html += "</tbody></table>";
       listEl.innerHTML = html;
+
     } catch (e) {
       listEl.innerHTML =
         '<div class="muted">Error: ' + esc(e.message || e) + "</div>";
@@ -216,7 +224,6 @@
     return j;
   }
 
-  // Auth controls
   $("btnLogin").addEventListener("click", () => {
     const pass = $("adminPass").value || "";
     if (!pass) {
@@ -227,9 +234,7 @@
     sessionStorage.setItem(KEY, pass);
     $("adminPass").value = "";
     setAuthStatus();
-    try {
-      loadBlockedList();
-    } catch (e) {}
+    loadBlockedList();
   });
 
   $("btnLogout").addEventListener("click", () => {
@@ -238,10 +243,10 @@
     setAuthStatus();
   });
 
-  // Form controls
   ["checkin", "checkout", "personas"].forEach((id) =>
     $(id).addEventListener("input", calc)
   );
+
   $("btnBlock").addEventListener("click", block);
   $("btnClear").addEventListener("click", clearForm);
 
@@ -259,9 +264,7 @@
     const id = btn.getAttribute("data-unblock");
     if (!id) return;
 
-    if (!confirm("¿Desbloquear esta fecha para que vuelva a estar disponible?")) {
-      return;
-    }
+    if (!confirm("¿Desbloquear esta fecha?")) return;
 
     btn.disabled = true;
 
@@ -277,7 +280,6 @@
     }
   });
 
-  // init
   setAuthStatus();
   calc();
   loadBlockedList();
