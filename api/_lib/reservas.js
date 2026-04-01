@@ -175,7 +175,7 @@ async function generateReservationPdfBuffer(reserva, opts = {}) {
   page.drawLine({ start: { x: 54, y }, end: { x: width - 54, y }, thickness: 1, color: rgb(0.8,0.84,0.87) });
   y -= 26;
   const defaultNote = r.status === 'blocked'
-    ? 'Este comprobante corresponde a una reserva cargada manualmente desde el panel admin de Aguará Lodge. Podés compartirlo con el huésped como constancia de la fecha apartada.'
+    ? 'Este comprobante corresponde a una reserva cargada manualmente desde el panel admin de Aguará Lodge. Podés compartirlo como constancia de la fecha apartada.'
     : 'Este comprobante confirma la reserva registrada en Aguará Lodge una vez acreditada la seña. Guardalo para cualquier consulta.';
   const note = opts.note || defaultNote;
   for (const chunk of wrapText(note, 70)) {
