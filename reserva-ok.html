@@ -3,14 +3,89 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Reserva iniciada</title>
+  <title>Reserva confirmada</title>
   <link rel="stylesheet" href="/style.css" />
+  <style>
+    .receipt{background:#fff;border-radius:18px;padding:22px;box-shadow:0 12px 30px rgba(0,0,0,.08);border:1px solid rgba(0,0,0,.08)}
+    .receipt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:16px}
+    .receipt-item{background:#f7f7f2;border-radius:14px;padding:14px;border:1px solid rgba(0,0,0,.06)}
+    .receipt-item span{display:block;font-size:.9rem;opacity:.7;margin-bottom:4px}
+    .pill-ok{display:inline-flex;align-items:center;gap:8px;background:#e9f8e5;color:#215c22;padding:8px 12px;border-radius:999px;font-weight:700}
+  </style>
 </head>
 <body>
   <div class="wrap" style="padding:40px 16px;max-width:900px">
-    <h1 style="margin:0 0 10px">Reserva iniciada</h1>
-    <p style="opacity:.9;max-width:60ch">¡Listo! Recibimos tu seña. Si el pago quedó aprobado, la fecha se reserva automáticamente. Si ves el estado 'pendiente', en unos minutos se actualiza.</p>
-    <p style="margin-top:18px"><a class="btn btn--filled" href="/#reservas">Volver a Reservas</a></p>
+    <div class="receipt">
+      <div class="pill-ok">✅ Reserva recibida</div>
+      <h1 style="margin:12px 0 10px">Comprobante de reserva</h1>
+      <p id="intro" style="opacity:.9;max-width:65ch">Estamos validando y cargando tu reserva. Esto puede tardar unos segundos mientras Mercado Pago le avisa a la web.</p>
+      <div id="statusBox" class="helper" style="margin:16px 0 10px">Buscando datos de la reserva...</div>
+      <div id="receiptContent"></div>
+      <p style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn btn--filled" href="/#reservas">Volver a Reservas</a>
+        <a class="btn" href="https://wa.me/543482632269" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+      </p>
+    </div>
   </div>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const ref = params.get('ref') || '';
+    const statusBox = document.getElementById('statusBox');
+    const receiptContent = document.getElementById('receiptContent');
+
+    function money(n) {
+      return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(Number(n || 0));
+    }
+
+    function esc(s) {
+      return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+    }
+
+    function renderReceipt(r) {
+      receiptContent.innerHTML = `
+        <div class="receipt-grid">
+          <div class="receipt-item"><span>Código de reserva</span><strong>${esc(r.ref || '-')}</strong></div>
+          <div class="receipt-item"><span>Estado</span><strong>${esc(r.status || '-')}</strong></div>
+          <div class="receipt-item"><span>Nombre</span><strong>${esc(r.nombre || '-')}</strong></div>
+          <div class="receipt-item"><span>Teléfono</span><strong>${esc(r.tel || '-')}</strong></div>
+          <div class="receipt-item"><span>Ingreso</span><strong>${esc(r.checkin || '-')}</strong></div>
+          <div class="receipt-item"><span>Egreso</span><strong>${esc(r.checkout || '-')}</strong></div>
+          <div class="receipt-item"><span>Noches</span><strong>${esc(r.noches || '-')}</strong></div>
+          <div class="receipt-item"><span>Personas</span><strong>${esc(r.personas || '-')}</strong></div>
+          <div class="receipt-item"><span>Total estadía</span><strong>${money(r.total)}</strong></div>
+          <div class="receipt-item"><span>Seña pagada</span><strong>${money(r.senia)}</strong></div>
+          <div class="receipt-item"><span>Saldo pendiente</span><strong>${money(r.saldo)}</strong></div>
+          <div class="receipt-item"><span>Pago Mercado Pago</span><strong>${esc(r.payment_id || '-')}</strong></div>
+        </div>
+      `;
+    }
+
+    async function loadReservation() {
+      if (!ref) {
+        statusBox.textContent = 'No encontramos el código de reserva en la URL.';
+        return;
+      }
+
+      for (let i = 1; i <= 8; i++) {
+        try {
+          statusBox.textContent = `Buscando datos de la reserva... intento ${i}/8`;
+          const resp = await fetch('/api/reservation-by-ref?ref=' + encodeURIComponent(ref));
+          const data = await resp.json().catch(() => ({}));
+          if (resp.ok && data.reservation) {
+            statusBox.textContent = 'Reserva confirmada y cargada en el sistema.';
+            renderReceipt(data.reservation);
+            return;
+          }
+        } catch (e) {}
+        await new Promise((r) => setTimeout(r, 3000));
+      }
+
+      statusBox.innerHTML = 'Mercado Pago devolvió el pago, pero la web todavía no terminó de mostrar la reserva. Si en 1 minuto sigue igual, escribinos por WhatsApp con tu comprobante y el código <strong>' + esc(ref) + '</strong>.';
+      receiptContent.innerHTML = '<div class="receipt-grid"><div class="receipt-item"><span>Código de reserva</span><strong>' + esc(ref) + '</strong></div></div>';
+    }
+
+    loadReservation();
+  </script>
 </body>
 </html>

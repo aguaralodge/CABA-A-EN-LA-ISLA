@@ -1,10 +1,5 @@
 // Vercel Serverless Function: GET /api/admin/list-blocked
-// Requires env vars:
-// - ADMIN_PASSWORD
-// - SUPABASE_URL
-// - SUPABASE_SERVICE_ROLE_KEY
-//
-// Lists rows from public.reservas with status = "blocked"
+// Devuelve reservas aprobadas y bloqueos manuales para que el panel admin muestre todo.
 
 function json(res, status, body) {
   res.statusCode = status;
@@ -28,52 +23,35 @@ module.exports = async (req, res) => {
 
   const pass = req.headers["x-admin-password"];
   const expected = process.env.ADMIN_PASSWORD;
-
-  if (!expected) {
-    return json(res, 500, { error: "ADMIN_PASSWORD no está configurada en Vercel." });
-  }
-
-  if (!same(String(pass || ""), String(expected))) {
-    return json(res, 401, { error: "No autorizado." });
-  }
+  if (!expected) return json(res, 500, { error: "ADMIN_PASSWORD no está configurada en Vercel." });
+  if (!same(String(pass || ""), String(expected))) return json(res, 401, { error: "No autorizado." });
 
   const supabaseUrl = process.env.SUPABASE_URL;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
   if (!supabaseUrl || !serviceKey) {
-    return json(res, 500, {
-      error: "Falta SUPABASE_URL o SUPABASE_SERVICE_ROLE_KEY en Vercel.",
-    });
+    return json(res, 500, { error: "Falta SUPABASE_URL o SUPABASE_SERVICE_ROLE_KEY en Vercel." });
   }
 
   try {
     const endpoint =
       supabaseUrl.replace(/\/+$/, "") +
-      "/rest/v1/reservas?select=id,checkin,checkout,nombre,personas,total,status,created_at&status=eq.blocked&checkin=not.is.null&checkout=not.is.null&order=checkin.asc";
+      "/rest/v1/reservas?select=id,ref,checkin,checkout,nombre,email,tel,personas,total,senia,saldo,status,payment_id,created_at&status=in.(approved,blocked,cash_pending)&checkin=not.is.null&checkout=not.is.null&order=checkin.asc";
 
     const r = await fetch(endpoint, {
       headers: {
         apikey: serviceKey,
         Authorization: `Bearer ${serviceKey}`,
-        Accept: "application/json",
-      },
+        Accept: "application/json"
+      }
     });
 
     const txt = await r.text();
     let rows;
-
-    try {
-      rows = JSON.parse(txt);
-    } catch {
-      rows = [];
-    }
-
-    if (!r.ok) {
-      return json(res, 200, { rows: [] });
-    }
+    try { rows = JSON.parse(txt); } catch { rows = []; }
+    if (!r.ok) return json(res, 200, { rows: [] });
 
     return json(res, 200, { rows: Array.isArray(rows) ? rows : [] });
-  } catch (e) {
+  } catch {
     return json(res, 200, { rows: [] });
   }
 };

@@ -60,6 +60,7 @@ const payBtn = document.getElementById('payBtn');
 const outNoches = document.getElementById('calcNoches');
 const outTotal = document.getElementById('calcTotal');
 const outSaldo = document.getElementById('calcSaldo');
+const outSenia = document.getElementById('calcSenia');
 
 if (ingresoEl && egresoEl && personasEl && payBtn && outNoches && outTotal && outSaldo) {
 
@@ -202,6 +203,9 @@ if (ingresoEl && egresoEl && personasEl && payBtn && outNoches && outTotal && ou
   function updatePayButtonText() {
     if (payBtn) {
       payBtn.textContent = `Pagar seña ${money(SENIA)} y reservar`;
+    }
+    if (outSenia) {
+      outSenia.textContent = money(SENIA);
     }
   }
 
