@@ -121,7 +121,11 @@ module.exports = async (req, res) => {
 
     let out;
     try { out = JSON.parse(txt); } catch { out = txt; }
-    return json(res, 200, { ok: true, ref, inserted: out });
+    const proto = (req.headers['x-forwarded-proto'] || 'https').split(',')[0].trim();
+    const host = (req.headers['x-forwarded-host'] || req.headers.host || '').split(',')[0].trim();
+    const base = process.env.PUBLIC_SITE_URL?.replace(/\/+$/, '') || (host ? `${proto}://${host}` : '');
+    const pdf_url = base ? `${base}/api/reservation-pdf?ref=${encodeURIComponent(ref)}` : `/api/reservation-pdf?ref=${encodeURIComponent(ref)}`;
+    return json(res, 200, { ok: true, ref, pdf_url, inserted: out });
   } catch (e) {
     return json(res, 500, { error: "Error conectando a Supabase", details: String(e?.message || e) });
   }

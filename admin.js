@@ -29,6 +29,23 @@
     }
   }
 
+  function pdfUrlForRef(ref) {
+    return `/api/reservation-pdf?ref=${encodeURIComponent(ref || "")}`;
+  }
+
+  function downloadPdf(ref) {
+    if (!ref) return;
+    const url = pdfUrlForRef(ref);
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.download = `comprobante-${ref}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
   function calc() {
     const checkin = $("checkin").value
       ? new Date($("checkin").value + "T00:00:00")
@@ -107,7 +124,15 @@
         throw new Error(data?.error || "Error HTTP " + resp.status);
       }
 
-      $("msg").textContent = `Listo ✅ Bloqueado (${data.ref || "sin ref"}).`;
+      const ref = data.ref || "";
+      const pdfUrl = data.pdf_url || pdfUrlForRef(ref);
+      $("msg").innerHTML = ref
+        ? `Listo ✅ Bloqueado (${ref}). <a href="${pdfUrl}" target="_blank" rel="noopener">Abrir PDF</a>`
+        : "Listo ✅ Bloqueado.";
+
+      if (ref) {
+        try { downloadPdf(ref); } catch (e) {}
+      }
 
       try {
         await loadBlockedList();
@@ -178,13 +203,13 @@
 
       if (rows.length === 0) {
         listEl.innerHTML =
-          '<div class="muted">No hay reservas ni bloqueos cargados.</div>';
+          '<div class="muted">No hay fechas bloqueadas.</div>';
         return;
       }
 
       let html = "";
       html += '<table class="blocked-table">';
-      html += "<thead><tr><th>Ingreso</th><th>Egreso</th><th>Nombre</th><th>Estado</th><th>Personas</th><th>Total</th><th></th></tr></thead>";
+      html += "<thead><tr><th>Ingreso</th><th>Egreso</th><th>Nombre</th><th>Estado</th><th>Personas</th><th>Total</th><th>Comprobante</th><th></th></tr></thead>";
       html += "<tbody>";
 
       for (const row of rows) {
@@ -194,12 +219,15 @@
         html += "<td>" + esc(row.checkin || "") + "</td>";
         html += "<td>" + esc(row.checkout || "") + "</td>";
         html += "<td>" + esc(nombre || "-") + "</td>";
-        html += "<td>" + esc(row.status || "-") + "</td>";
+        html += '<td>' + esc((row.status || '').replace('approved','Reserva web').replace('blocked','Bloqueada').replace('cash_pending','Pendiente efectivo') || '-') + '</td>';
         html += '<td style="text-align:center">' + esc(row.personas ?? "") + "</td>";
         html += "<td>" + esc(money(row.total ?? 0)) + "</td>";
-        html += '<td style="text-align:right">' + (row.status === "blocked"
-          ? '<button class="btn small" data-unblock="' + esc(row.id) + '">Desbloquear</button>'
-          : '<span class="muted">Reserva web</span>') + '</td>';
+        html += '<td style="text-align:center">' + (row.ref
+          ? ('<a class="btn small ghost" href="' + esc(pdfUrlForRef(row.ref)) + '" target="_blank" rel="noopener">PDF</a>')
+          : '-') + '</td>';
+        html += '<td style="text-align:right">' + ((row.status === 'blocked')
+          ? ('<button class="btn small" data-unblock="' + esc(row.id) + '">Desbloquear</button>')
+          : '-') + '</td>';
         html += "</tr>";
       }
 

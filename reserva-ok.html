@@ -6,86 +6,110 @@
   <title>Reserva confirmada</title>
   <link rel="stylesheet" href="/style.css" />
   <style>
-    .receipt{background:#fff;border-radius:18px;padding:22px;box-shadow:0 12px 30px rgba(0,0,0,.08);border:1px solid rgba(0,0,0,.08)}
-    .receipt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:16px}
-    .receipt-item{background:#f7f7f2;border-radius:14px;padding:14px;border:1px solid rgba(0,0,0,.06)}
-    .receipt-item span{display:block;font-size:.9rem;opacity:.7;margin-bottom:4px}
-    .pill-ok{display:inline-flex;align-items:center;gap:8px;background:#e9f8e5;color:#215c22;padding:8px 12px;border-radius:999px;font-weight:700}
+    .ok-wrap{padding:40px 16px;max-width:960px;margin:0 auto}
+    .ok-card{background:#10222e;color:#fff;border-radius:20px;padding:24px;box-shadow:0 24px 60px rgba(0,0,0,.22)}
+    .ok-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+    .ok-item{background:rgba(255,255,255,.07);padding:14px 16px;border-radius:14px}
+    .ok-label{font-size:.9rem;opacity:.78;margin-bottom:6px}
+    .ok-value{font-size:1.05rem;font-weight:700}
+    .ok-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+    .ok-note{margin-top:14px;opacity:.86}
+    .ok-error{background:#fff4f4;color:#7a1414;padding:16px;border-radius:14px}
+    @media (max-width:760px){.ok-grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-  <div class="wrap" style="padding:40px 16px;max-width:900px">
-    <div class="receipt">
-      <div class="pill-ok">✅ Reserva recibida</div>
-      <h1 style="margin:12px 0 10px">Comprobante de reserva</h1>
-      <p id="intro" style="opacity:.9;max-width:65ch">Estamos validando y cargando tu reserva. Esto puede tardar unos segundos mientras Mercado Pago le avisa a la web.</p>
-      <div id="statusBox" class="helper" style="margin:16px 0 10px">Buscando datos de la reserva...</div>
-      <div id="receiptContent"></div>
-      <p style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap">
-        <a class="btn btn--filled" href="/#reservas">Volver a Reservas</a>
-        <a class="btn" href="https://wa.me/543482632269" target="_blank" rel="noopener">Hablar por WhatsApp</a>
-      </p>
+  <div class="ok-wrap">
+    <div id="statusBox" class="ok-card">
+      <h1 style="margin:0 0 10px">Estamos confirmando tu reserva</h1>
+      <p style="margin:0;opacity:.9;max-width:60ch">Tu pago ya volvió desde Mercado Pago. Estamos esperando que la reserva termine de impactar en el sistema.</p>
+      <p class="ok-note" id="liveMsg">Aguantá unos segundos, el comprobante PDF se genera solo cuando la reserva aparece guardada.</p>
     </div>
   </div>
 
   <script>
-    const params = new URLSearchParams(location.search);
-    const ref = params.get('ref') || '';
-    const statusBox = document.getElementById('statusBox');
-    const receiptContent = document.getElementById('receiptContent');
+    (async function(){
+      const statusBox = document.getElementById('statusBox');
+      const liveMsg = document.getElementById('liveMsg');
+      const params = new URLSearchParams(location.search);
+      const ref = (params.get('ref') || '').trim();
 
-    function money(n) {
-      return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(Number(n || 0));
-    }
+      function esc(s){
+        return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+      }
+      function money(n){
+        try { return new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(Number(n||0)); }
+        catch { return '$ ' + Math.round(Number(n||0)); }
+      }
+      function fmtDate(iso){
+        if(!iso) return '-';
+        const [y,m,d] = String(iso).split('-');
+        return y && m && d ? `${d}/${m}/${y}` : iso;
+      }
+      function triggerPdf(ref){
+        const a = document.createElement('a');
+        a.href = `/api/reservation-pdf?ref=${encodeURIComponent(ref)}`;
+        a.download = `comprobante-${ref}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
 
-    function esc(s) {
-      return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
-    }
-
-    function renderReceipt(r) {
-      receiptContent.innerHTML = `
-        <div class="receipt-grid">
-          <div class="receipt-item"><span>Código de reserva</span><strong>${esc(r.ref || '-')}</strong></div>
-          <div class="receipt-item"><span>Estado</span><strong>${esc(r.status || '-')}</strong></div>
-          <div class="receipt-item"><span>Nombre</span><strong>${esc(r.nombre || '-')}</strong></div>
-          <div class="receipt-item"><span>Teléfono</span><strong>${esc(r.tel || '-')}</strong></div>
-          <div class="receipt-item"><span>Ingreso</span><strong>${esc(r.checkin || '-')}</strong></div>
-          <div class="receipt-item"><span>Egreso</span><strong>${esc(r.checkout || '-')}</strong></div>
-          <div class="receipt-item"><span>Noches</span><strong>${esc(r.noches || '-')}</strong></div>
-          <div class="receipt-item"><span>Personas</span><strong>${esc(r.personas || '-')}</strong></div>
-          <div class="receipt-item"><span>Total estadía</span><strong>${money(r.total)}</strong></div>
-          <div class="receipt-item"><span>Seña pagada</span><strong>${money(r.senia)}</strong></div>
-          <div class="receipt-item"><span>Saldo pendiente</span><strong>${money(r.saldo)}</strong></div>
-          <div class="receipt-item"><span>Pago Mercado Pago</span><strong>${esc(r.payment_id || '-')}</strong></div>
-        </div>
-      `;
-    }
-
-    async function loadReservation() {
-      if (!ref) {
-        statusBox.textContent = 'No encontramos el código de reserva en la URL.';
+      if(!ref){
+        statusBox.className = 'ok-error';
+        statusBox.innerHTML = '<strong>No encontramos el código de reserva.</strong><br>Volvé al inicio o escribinos por WhatsApp para verificar el pago.';
         return;
       }
 
-      for (let i = 1; i <= 8; i++) {
-        try {
-          statusBox.textContent = `Buscando datos de la reserva... intento ${i}/8`;
-          const resp = await fetch('/api/reservation-by-ref?ref=' + encodeURIComponent(ref));
-          const data = await resp.json().catch(() => ({}));
-          if (resp.ok && data.reservation) {
-            statusBox.textContent = 'Reserva confirmada y cargada en el sistema.';
-            renderReceipt(data.reservation);
-            return;
-          }
-        } catch (e) {}
-        await new Promise((r) => setTimeout(r, 3000));
+      async function getReserva(){
+        const r = await fetch(`/api/reservation-by-ref?ref=${encodeURIComponent(ref)}`, { cache: 'no-store' });
+        const j = await r.json().catch(()=>({}));
+        if(!r.ok) throw new Error(j?.error || 'Todavía no aparece la reserva');
+        return j.reserva;
       }
 
-      statusBox.innerHTML = 'Mercado Pago devolvió el pago, pero la web todavía no terminó de mostrar la reserva. Si en 1 minuto sigue igual, escribinos por WhatsApp con tu comprobante y el código <strong>' + esc(ref) + '</strong>.';
-      receiptContent.innerHTML = '<div class="receipt-grid"><div class="receipt-item"><span>Código de reserva</span><strong>' + esc(ref) + '</strong></div></div>';
-    }
+      let reserva = null;
+      for(let i=0;i<10;i++){
+        try {
+          reserva = await getReserva();
+          if (reserva) break;
+        } catch(e) {
+          liveMsg.textContent = `Intentando confirmar la reserva... (${i+1}/10)`;
+          await new Promise(r => setTimeout(r, 2500));
+        }
+      }
 
-    loadReservation();
+      if(!reserva){
+        statusBox.className = 'ok-error';
+        statusBox.innerHTML = `<strong>El pago volvió bien, pero la reserva todavía no aparece guardada.</strong><br>Pasanos este código por WhatsApp para revisarlo: <strong>${esc(ref)}</strong>`;
+        return;
+      }
+
+      statusBox.className = 'ok-card';
+      statusBox.innerHTML = `
+        <h1 style="margin:0 0 8px">Reserva confirmada ✅</h1>
+        <p style="margin:0;opacity:.92;max-width:62ch">Tu comprobante ya está listo. En unos segundos se descarga el PDF automáticamente con todos los datos de la reserva.</p>
+        <div class="ok-grid">
+          <div class="ok-item"><div class="ok-label">Código</div><div class="ok-value">${esc(reserva.ref || ref)}</div></div>
+          <div class="ok-item"><div class="ok-label">Titular</div><div class="ok-value">${esc(reserva.nombre || '-')}</div></div>
+          <div class="ok-item"><div class="ok-label">Check-in</div><div class="ok-value">${esc(fmtDate(reserva.checkin))}</div></div>
+          <div class="ok-item"><div class="ok-label">Check-out</div><div class="ok-value">${esc(fmtDate(reserva.checkout))}</div></div>
+          <div class="ok-item"><div class="ok-label">Noches</div><div class="ok-value">${esc(reserva.noches || 0)}</div></div>
+          <div class="ok-item"><div class="ok-label">Personas</div><div class="ok-value">${esc(reserva.personas || 0)}</div></div>
+          <div class="ok-item"><div class="ok-label">Total</div><div class="ok-value">${esc(money(reserva.total))}</div></div>
+          <div class="ok-item"><div class="ok-label">Seña pagada</div><div class="ok-value">${esc(money(reserva.senia))}</div></div>
+          <div class="ok-item"><div class="ok-label">Saldo pendiente</div><div class="ok-value">${esc(money(reserva.saldo))}</div></div>
+          <div class="ok-item"><div class="ok-label">Estado</div><div class="ok-value">${esc(reserva.status || '-')}</div></div>
+        </div>
+        <div class="ok-actions">
+          <a class="btn btn--filled" href="/api/reservation-pdf?ref=${encodeURIComponent(ref)}" target="_blank" rel="noopener">Descargar comprobante PDF</a>
+          <a class="btn" href="/">Volver al inicio</a>
+        </div>
+        <p class="ok-note">Si la descarga no arranca sola, usá el botón de arriba.</p>
+      `;
+
+      setTimeout(() => triggerPdf(ref), 500);
+    })();
   </script>
 </body>
 </html>
