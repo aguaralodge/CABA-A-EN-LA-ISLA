@@ -178,13 +178,13 @@
 
       if (rows.length === 0) {
         listEl.innerHTML =
-          '<div class="muted">No hay fechas bloqueadas.</div>';
+          '<div class="muted">No hay reservas ni bloqueos cargados.</div>';
         return;
       }
 
       let html = "";
       html += '<table class="blocked-table">';
-      html += "<thead><tr><th>Ingreso</th><th>Egreso</th><th>Nombre</th><th>Personas</th><th>Total</th><th></th></tr></thead>";
+      html += "<thead><tr><th>Ingreso</th><th>Egreso</th><th>Nombre</th><th>Estado</th><th>Personas</th><th>Total</th><th></th></tr></thead>";
       html += "<tbody>";
 
       for (const row of rows) {
@@ -194,9 +194,12 @@
         html += "<td>" + esc(row.checkin || "") + "</td>";
         html += "<td>" + esc(row.checkout || "") + "</td>";
         html += "<td>" + esc(nombre || "-") + "</td>";
+        html += "<td>" + esc(row.status || "-") + "</td>";
         html += '<td style="text-align:center">' + esc(row.personas ?? "") + "</td>";
         html += "<td>" + esc(money(row.total ?? 0)) + "</td>";
-        html += '<td style="text-align:right"><button class="btn small" data-unblock="' + esc(row.id) + '">Desbloquear</button></td>';
+        html += '<td style="text-align:right">' + (row.status === "blocked"
+          ? '<button class="btn small" data-unblock="' + esc(row.id) + '">Desbloquear</button>'
+          : '<span class="muted">Reserva web</span>') + '</td>';
         html += "</tr>";
       }
 
