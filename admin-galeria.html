@@ -1,26 +1,103 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Admin Galería</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Galería | Aguará Lodge</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="robots" content="noindex,nofollow" />
 </head>
-<body style="padding:20px;background:#0f172a;color:white;">
-<h2>Panel de Galería</h2>
+<body>
+  <nav class="nav">
+    <div class="nav__wrap">
+      <a href="index.html#inicio" class="brand" aria-label="Aguará Lodge - ir al inicio">
+        <div class="brand__mark" aria-hidden="true"></div>
+        <div class="brand__txt">
+          <span class="brand__name">Aguará Lodge</span>
+          <span class="brand__tag">Panel privado de galería</span>
+        </div>
+      </a>
+      <div class="nav__spacer"></div>
+      <div class="nav__links" id="navLinks">
+        <a href="admin-aguara.html">Admin reservas</a>
+        <a href="galeria.html" class="cta">Ver galería</a>
+      </div>
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+    </div>
+  </nav>
 
-<input type="password" id="pwd" placeholder="Contraseña">
-<button onclick="login()">Entrar</button>
+  <main class="section" style="padding-top:110px">
+    <div class="wrap">
+      <div class="section__title">
+        <div>
+          <h2>Panel privado de galería</h2>
+          <p class="muted">Subí fotos, poné títulos y descripciones, editá lo que ya está y borrá lo que no sirva.</p>
+        </div>
+      </div>
 
-<div id="panel" style="display:none;margin-top:20px;">
-<input type="file" id="file">
-<input type="text" id="titulo" placeholder="Título">
-<input type="text" id="desc" placeholder="Descripción">
-<button onclick="subir()">Subir Foto</button>
+      <div class="admin-gallery-grid">
+        <section class="card admin-gallery-panel">
+          <h3 style="margin-top:0">Acceso</h3>
+          <label class="lbl">Contraseña</label>
+          <input id="adminPass" class="inp" type="password" placeholder="••••••••" autocomplete="current-password" />
+          <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+            <button id="btnLogin" class="btn" type="button">Guardar sesión</button>
+            <button id="btnLogout" class="btn ghost" type="button">Cerrar sesión</button>
+          </div>
+          <p id="authStatus" class="muted" style="margin:10px 0 0"></p>
 
-<h3>Fotos</h3>
-<div id="lista"></div>
-</div>
+          <hr class="admin-gallery-sep" />
 
-<script src="admin-galeria.js"></script>
+          <h3 id="formTitle" style="margin-top:0">Cargar foto nueva</h3>
+          <input id="galId" type="hidden" />
+
+          <label class="lbl">Foto</label>
+          <input id="foto" class="inp" type="file" accept="image/png,image/jpeg,image/webp" />
+
+          <div id="previewWrap" class="admin-gallery-preview" style="display:none;">
+            <img id="preview" alt="Vista previa" />
+          </div>
+
+          <label class="lbl">Título</label>
+          <input id="titulo" class="inp" type="text" placeholder="Ej: Vista al río desde el muelle" />
+
+          <label class="lbl">Descripción</label>
+          <textarea id="descripcion" class="inp" rows="4" placeholder="Ej: Atardecer en la isla, ideal para pesca y descanso."></textarea>
+
+          <div class="admin-gallery-form-grid">
+            <div>
+              <label class="lbl">Orden</label>
+              <input id="orden" class="inp" type="number" min="1" step="1" placeholder="1" />
+            </div>
+            <div class="admin-gallery-checkbox">
+              <label><input id="activa" type="checkbox" checked /> Mostrar en la galería</label>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:10px; margin-top:14px; flex-wrap:wrap;">
+            <button id="saveBtn" class="btn btn--filled" type="button">Guardar foto</button>
+            <button id="clearBtn" class="btn ghost" type="button">Limpiar</button>
+          </div>
+
+          <p id="msg" class="muted" style="margin:12px 0 0"></p>
+        </section>
+
+        <section class="card admin-gallery-panel">
+          <div class="section__title" style="margin-bottom:14px">
+            <div>
+              <h3 style="margin:0">Fotos cargadas</h3>
+              <p class="muted" style="margin:6px 0 0">Desde acá podés editar o borrar cada imagen.</p>
+            </div>
+          </div>
+          <div id="items">
+            <div class="muted">Ingresá la contraseña para ver las fotos.</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+  <script src="admin-galeria.js"></script>
 </body>
 </html>
