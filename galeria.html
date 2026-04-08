@@ -1,86 +1,53 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Galería | Aguará Lodge</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Galería | Aguara Lodge</title>
 
-<link rel="stylesheet" href="styles.css">
-
-<style>
-.galeria-container{
-  max-width:1200px;
-  margin:auto;
-  padding:40px 20px;
-}
-
-.galeria-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:20px;
-}
-
-.card{
-  background:#0f2a43;
-  border-radius:14px;
-  overflow:hidden;
-  cursor:pointer;
-  box-shadow:0 20px 60px rgba(0,0,0,0.6);
-  transition:.3s;
-}
-
-.card:hover{
-  transform:scale(1.03);
-}
-
-.card img{
-  width:100%;
-  height:220px;
-  object-fit:cover;
-}
-
-.card h3{
-  padding:10px;
-  color:white;
-}
-
-/* LIGHTBOX */
-.lightbox{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.9);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-}
-
-.lightbox img{
-  max-width:90%;
-  max-height:90%;
-  border-radius:10px;
-}
-</style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- 🔥 TU HEADER REAL (COPIALO DE INDEX SI QUERÉS EXACTO) -->
-<header class="header">
-  <h2>Aguará Lodge</h2>
-  <nav>
-    <a href="index.html">Inicio</a>
-    <a href="galeria.html">Galería</a>
-    <a href="contacto.html">Contacto</a>
-  </nav>
-</header>
+<!-- 🔥 NAV REAL COPIADO DE TU INDEX -->
+<nav class="nav">
+  <div class="nav__wrap">
+    <a href="index.html" class="brand">
+      <div class="brand__mark"></div>
+      <div class="brand__txt">
+        <span class="brand__name">Aguara Lodge</span>
+        <span class="brand__tag">Reconquista · Santa Fe</span>
+      </div>
+    </a>
 
-<div class="galeria-container">
-  <h1>Galería Aguará Lodge</h1>
-  <div id="galeria" class="galeria-grid"></div>
-</div>
+    <div class="nav__spacer"></div>
 
-<div class="lightbox" id="lightbox">
+    <div class="nav__links">
+      <a href="index.html#cabanas">Cabañas</a>
+      <a href="index.html#actividades">Actividades</a>
+      <a href="galeria.html">Galería</a>
+      <a href="index.html#reservas" class="cta">Reservas</a>
+    </div>
+  </div>
+</nav>
+
+<section>
+  <div class="wrap">
+
+    <div class="section__title">
+      <h2>Galería</h2>
+      <p>Imágenes reales del lodge, el río y la experiencia en la isla.</p>
+    </div>
+
+    <!-- 🔥 MISMO GRID QUE USÁS EN INDEX -->
+    <div class="gallery" id="galeria"></div>
+
+  </div>
+</section>
+
+<!-- LIGHTBOX (YA EXISTE EN TU CSS) -->
+<div id="lightbox" class="lightbox">
   <img id="lightbox-img">
 </div>
 
@@ -88,14 +55,14 @@
 
 <script>
 const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightbox-img");
+const img = document.getElementById("lightbox-img");
 
-document.addEventListener("click",(e)=>{
-  if(e.target.classList.contains("galeria-img")){
-    lightbox.style.display="flex";
-    lightboxImg.src = e.target.src;
-  }else{
-    lightbox.style.display="none";
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("galeria-img")) {
+    lightbox.classList.add("open");
+    img.src = e.target.src;
+  } else if (e.target === lightbox) {
+    lightbox.classList.remove("open");
   }
 });
 </script>
