@@ -95,23 +95,22 @@
   }
 
   async function loadRows() {
-    if (!state.pass) {
-      $('items').innerHTML = '<div class="muted">Ingresá la contraseña para ver las fotos.</div>';
-      return;
-    }
-
     $('items').innerHTML = '<div class="muted">Cargando…</div>';
 
     try {
-      const j = await fetchJson('/api/admin/gallery-list', { cache: 'no-store' });
+      const j = await fetchJson('/api/gallery', {
+        method: 'GET',
+        cache: 'no-store',
+      });
+
       state.rows = Array.isArray(j.rows) ? j.rows : [];
-      renderItems(Boolean(j.fallback));
+      renderItems();
     } catch (e) {
       $('items').innerHTML = `<div class="muted">${esc(e.message || e)}</div>`;
     }
   }
 
-  function renderItems(isFallback) {
+  function renderItems() {
     if (!state.rows.length) {
       $('items').innerHTML = '<div class="muted">Todavía no hay fotos cargadas.</div>';
       return;
@@ -130,37 +129,11 @@
           <h3>${esc(row.titulo || `Foto ${i + 1}`)}</h3>
           <p>${esc(row.descripcion || 'Sin descripción')}</p>
           <div class="admin-gallery-card__actions">
-            <button class="btn" type="button" data-edit="${esc(row.id)}">Editar</button>
             <button class="btn ghost" type="button" data-delete="${esc(row.id)}">Borrar</button>
           </div>
         </div>
       </article>
     `).join('');
-
-    if (isFallback) {
-      showMsg('Se está mostrando la galería base del sitio. Cuando cargues la tabla y el bucket en Supabase, acá aparecerán las fotos reales.', false);
-    }
-  }
-
-  function startEdit(id) {
-    const row = state.rows.find((x) => String(x.id) === String(id));
-    if (!row) return;
-
-    state.editingId = String(row.id);
-    $('formTitle').textContent = 'Editar foto';
-    $('saveBtn').textContent = 'Guardar cambios';
-    $('galId').value = String(row.id || '');
-    $('titulo').value = row.titulo || '';
-    $('descripcion').value = row.descripcion || '';
-    $('orden').value = row.orden ?? '';
-    $('activa').checked = row.activa !== false;
-
-    state.currentPreview = row.image_url || row.imagen_url || '';
-    state.selectedFile = null;
-    $('foto').value = '';
-    setPreview(state.currentPreview);
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   async function save() {
@@ -173,8 +146,6 @@
 
     const titulo = $('titulo').value.trim();
     const descripcion = $('descripcion').value.trim();
-    const ordenRaw = $('orden').value.trim();
-    const activa = $('activa').checked;
     const file = $('foto').files?.[0] || null;
 
     if (!titulo) {
@@ -182,50 +153,40 @@
       return;
     }
 
-    if (!state.editingId && !file) {
+    if (!file) {
       showMsg('Elegí una foto.');
       return;
     }
 
     $('saveBtn').disabled = true;
-    $('saveBtn').textContent = state.editingId ? 'Guardando…' : 'Subiendo…';
+    $('saveBtn').textContent = 'Subiendo…';
 
     try {
+      const filePayload = await fileToPayload(file);
+
       const payload = {
-        id: state.editingId || undefined,
+        action: 'create',
         titulo,
         descripcion,
-        orden: ordenRaw === '' ? null : Number(ordenRaw),
-        activa,
+        imagenBase64: filePayload.imagenBase64,
+        fileName: filePayload.fileName,
+        mimeType: filePayload.mimeType,
       };
 
-      if (file) {
-        Object.assign(payload, await fileToPayload(file));
-      }
+      await fetchJson('/api/gallery', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
 
-      if (state.editingId) {
-        await fetchJson('/api/admin/gallery-update', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        showMsg('Foto actualizada ✅', true);
-      } else {
-        await fetchJson('/api/admin/gallery-create', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        showMsg('Foto cargada ✅', true);
-      }
-
+      showMsg('Foto cargada ✅', true);
       resetForm();
       await loadRows();
     } catch (e) {
       showMsg(e.message || String(e));
     } finally {
       $('saveBtn').disabled = false;
-      $('saveBtn').textContent = state.editingId ? 'Guardar cambios' : 'Guardar foto';
+      $('saveBtn').textContent = 'Guardar foto';
     }
   }
 
@@ -238,15 +199,16 @@
     if (!confirm('¿Borrar esta foto?')) return;
 
     try {
-      await fetchJson('/api/admin/gallery-delete', {
+      await fetchJson('/api/gallery', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({
+          action: 'delete',
+          id,
+        }),
       });
 
       showMsg('Foto borrada ✅', true);
-
-      if (state.editingId === String(id)) resetForm();
       await loadRows();
     } catch (e) {
       showMsg(e.message || String(e));
@@ -295,14 +257,11 @@
   });
 
   document.addEventListener('click', (ev) => {
-    const editBtn = ev.target.closest('[data-edit]');
-    if (editBtn) return startEdit(editBtn.getAttribute('data-edit'));
-
     const delBtn = ev.target.closest('[data-delete]');
     if (delBtn) return deleteRow(delBtn.getAttribute('data-delete'));
   });
 
   renderAuth();
   resetForm();
-  if (state.pass) loadRows();
+  loadRows();
 })();
