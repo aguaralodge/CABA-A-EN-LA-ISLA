@@ -1,6 +1,7 @@
 (() => {
   const $ = (id) => document.getElementById(id);
   const KEY = 'aguara_admin_pass';
+
   const state = {
     pass: sessionStorage.getItem(KEY) || '',
     rows: [],
@@ -42,6 +43,7 @@
     state.editingId = '';
     state.currentPreview = '';
     state.selectedFile = null;
+
     $('formTitle').textContent = 'Cargar foto nueva';
     $('saveBtn').textContent = 'Guardar foto';
     $('galId').value = '';
@@ -71,10 +73,11 @@
       fr.onerror = reject;
       fr.readAsDataURL(file);
     });
+
     return {
-      filename: file.name,
+      fileName: file.name,
       mimeType: file.type || 'image/jpeg',
-      dataBase64: dataUrl.split(',').pop(),
+      imagenBase64: dataUrl,
     };
   }
 
@@ -83,8 +86,10 @@
       ...(options.headers || {}),
       'x-admin-password': state.pass,
     };
+
     const r = await fetch(url, { ...options, headers });
     const j = await r.json().catch(() => ({}));
+
     if (!r.ok) throw new Error(j.error || `Error HTTP ${r.status}`);
     return j;
   }
@@ -94,7 +99,9 @@
       $('items').innerHTML = '<div class="muted">Ingresá la contraseña para ver las fotos.</div>';
       return;
     }
+
     $('items').innerHTML = '<div class="muted">Cargando…</div>';
+
     try {
       const j = await fetchJson('/api/admin/gallery-list', { cache: 'no-store' });
       state.rows = Array.isArray(j.rows) ? j.rows : [];
@@ -113,7 +120,7 @@
     $('items').innerHTML = state.rows.map((row, i) => `
       <article class="admin-gallery-card">
         <div class="admin-gallery-card__img">
-          <img src="${esc(row.image_url || '')}" alt="${esc(row.titulo || `Foto ${i + 1}`)}" />
+          <img src="${esc(row.image_url || row.imagen_url || '')}" alt="${esc(row.titulo || `Foto ${i + 1}`)}" />
         </div>
         <div class="admin-gallery-card__body">
           <div class="admin-gallery-card__top">
@@ -138,6 +145,7 @@
   function startEdit(id) {
     const row = state.rows.find((x) => String(x.id) === String(id));
     if (!row) return;
+
     state.editingId = String(row.id);
     $('formTitle').textContent = 'Editar foto';
     $('saveBtn').textContent = 'Guardar cambios';
@@ -146,15 +154,18 @@
     $('descripcion').value = row.descripcion || '';
     $('orden').value = row.orden ?? '';
     $('activa').checked = row.activa !== false;
-    state.currentPreview = row.image_url || '';
+
+    state.currentPreview = row.image_url || row.imagen_url || '';
     state.selectedFile = null;
     $('foto').value = '';
     setPreview(state.currentPreview);
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   async function save() {
     showMsg('');
+
     if (!state.pass) {
       showMsg('Primero guardá la contraseña.');
       return;
@@ -188,7 +199,9 @@
         activa,
       };
 
-      if (file) Object.assign(payload, await fileToPayload(file));
+      if (file) {
+        Object.assign(payload, await fileToPayload(file));
+      }
 
       if (state.editingId) {
         await fetchJson('/api/admin/gallery-update', {
@@ -221,14 +234,18 @@
       showMsg('Primero guardá la contraseña.');
       return;
     }
+
     if (!confirm('¿Borrar esta foto?')) return;
+
     try {
       await fetchJson('/api/admin/gallery-delete', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ id }),
       });
+
       showMsg('Foto borrada ✅', true);
+
       if (state.editingId === String(id)) resetForm();
       await loadRows();
     } catch (e) {
@@ -238,10 +255,12 @@
 
   $('btnLogin').addEventListener('click', () => {
     const pass = $('adminPass').value.trim();
+
     if (!pass) {
       showMsg('Ingresá la contraseña.');
       return;
     }
+
     setSession(pass);
     $('adminPass').value = '';
     showMsg('Sesión guardada ✅', true);
@@ -257,16 +276,19 @@
   $('foto').addEventListener('change', () => {
     const file = $('foto').files?.[0] || null;
     state.selectedFile = file;
+
     if (!file) {
       setPreview(state.currentPreview || '');
       return;
     }
+
     const fr = new FileReader();
     fr.onload = () => setPreview(String(fr.result || ''));
     fr.readAsDataURL(file);
   });
 
   $('saveBtn').addEventListener('click', save);
+
   $('clearBtn').addEventListener('click', () => {
     resetForm();
     showMsg('');
@@ -275,6 +297,7 @@
   document.addEventListener('click', (ev) => {
     const editBtn = ev.target.closest('[data-edit]');
     if (editBtn) return startEdit(editBtn.getAttribute('data-edit'));
+
     const delBtn = ev.target.closest('[data-delete]');
     if (delBtn) return deleteRow(delBtn.getAttribute('data-delete'));
   });
