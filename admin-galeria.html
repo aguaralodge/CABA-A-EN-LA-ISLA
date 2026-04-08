@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Admin Galería</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body style="padding:20px;background:#0f172a;color:white;">
+<h2>Panel de Galería</h2>
+
+<input type="password" id="pwd" placeholder="Contraseña">
+<button onclick="login()">Entrar</button>
+
+<div id="panel" style="display:none;margin-top:20px;">
+<input type="file" id="file">
+<input type="text" id="titulo" placeholder="Título">
+<input type="text" id="desc" placeholder="Descripción">
+<button onclick="subir()">Subir Foto</button>
+
+<h3>Fotos</h3>
+<div id="lista"></div>
+</div>
+
+<script src="admin-galeria.js"></script>
+</body>
+</html>
