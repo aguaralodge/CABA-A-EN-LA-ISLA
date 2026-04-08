@@ -18,14 +18,18 @@ async function cargarGaleria() {
     const data = await res.json();
 
     cont.innerHTML = data.map(f => `
-      <div class="card">
-        <img class="galeria-img" src="${f.imagen_url}">
-        <h3>${f.titulo || ""}</h3>
-      </div>
+      <article class="card">
+        <img class="galeria-img" src="${f.imagen_url}" />
+        <div class="card__body">
+          <span class="badge">Galería</span>
+          <h3>${f.titulo || ""}</h3>
+          <p>${f.descripcion || ""}</p>
+        </div>
+      </article>
     `).join("");
 
   } catch (e) {
-    cont.innerHTML = "Error cargando galería";
+    cont.innerHTML = "<p>Error cargando galería</p>";
   }
 }
 
