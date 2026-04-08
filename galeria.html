@@ -1,61 +1,104 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Galería | Aguará Lodge</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galería | Aguará Lodge</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #0b1320;
-      color: white;
-    }
+<link rel="stylesheet" href="styles.css">
 
-    h1 {
-      text-align: center;
-      padding: 20px;
-    }
+<style>
+.galeria-container{
+  max-width:1200px;
+  margin:auto;
+  padding:40px 20px;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
+.galeria-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;
+}
 
-    .card {
-      background: #111827;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
+.card{
+  background:#0f2a43;
+  border-radius:14px;
+  overflow:hidden;
+  cursor:pointer;
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);
+  transition:.3s;
+}
 
-    .card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
+.card:hover{
+  transform:scale(1.03);
+}
 
-    .card h3 {
-      margin: 10px;
-    }
+.card img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+}
 
-    .card p {
-      margin: 10px;
-      opacity: 0.8;
-    }
-  </style>
+.card h3{
+  padding:10px;
+  color:white;
+}
+
+/* LIGHTBOX */
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.9);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+
+.lightbox img{
+  max-width:90%;
+  max-height:90%;
+  border-radius:10px;
+}
+</style>
 </head>
 
 <body>
 
-<h1>Galería Aguará Lodge</h1>
+<!-- 🔥 TU HEADER REAL (COPIALO DE INDEX SI QUERÉS EXACTO) -->
+<header class="header">
+  <h2>Aguará Lodge</h2>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="galeria.html">Galería</a>
+    <a href="contacto.html">Contacto</a>
+  </nav>
+</header>
 
-<div id="galeria" class="grid"></div>
+<div class="galeria-container">
+  <h1>Galería Aguará Lodge</h1>
+  <div id="galeria" class="galeria-grid"></div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img id="lightbox-img">
+</div>
 
 <script src="galeria.js"></script>
+
+<script>
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+
+document.addEventListener("click",(e)=>{
+  if(e.target.classList.contains("galeria-img")){
+    lightbox.style.display="flex";
+    lightboxImg.src = e.target.src;
+  }else{
+    lightbox.style.display="none";
+  }
+});
+</script>
 
 </body>
 </html>
