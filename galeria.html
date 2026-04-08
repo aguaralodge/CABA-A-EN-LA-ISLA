@@ -1,62 +1,61 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Galería · Aguará Lodge</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Galería | Aguará Lodge</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #0b1320;
+      color: white;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background: #111827;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card h3 {
+      margin: 10px;
+    }
+
+    .card p {
+      margin: 10px;
+      opacity: 0.8;
+    }
+  </style>
 </head>
+
 <body>
-  <nav class="nav">
-    <div class="nav__wrap">
-      <a href="index.html#inicio" class="brand" aria-label="Aguara Lodge - ir al inicio">
-        <div class="brand__mark" id="logoBox" aria-hidden="true"></div>
-        <div class="brand__txt">
-          <span class="brand__name">Aguara Lodge</span>
-          <span class="brand__tag">Islas del Paraná · Santa Fe</span>
-        </div>
-      </a>
-      <div class="nav__spacer"></div>
-      <div class="nav__links" id="navLinks">
-        <a href="index.html#cabanas">Cabañas</a>
-        <a href="index.html#actividades">Actividades</a>
-        <a href="galeria.html" class="cta">Galería</a>
-        <a href="index.html#reservas">Reservas</a>
-      </div>
-      <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
-    </div>
-  </nav>
 
-  <header class="section" style="padding-top:110px">
-    <div class="wrap">
-      <div class="section__title">
-        <div>
-          <h2>Galería</h2>
-          <p class="muted">Fotos del alojamiento y el entorno. Tocá una imagen para ampliar.</p>
-          <p id="galleryStatus" class="muted" style="margin:.6rem 0 0"></p>
-        </div>
-      </div>
-    </div>
-  </header>
+<h1>Galería Aguará Lodge</h1>
 
-  <main class="section" style="padding-top:0">
-    <div class="wrap">
-      <div class="gallery" id="gallery">
-        <div class="muted">Cargando fotos…</div>
-      </div>
+<div id="galeria" class="grid"></div>
 
-      <div class="section__title" style="margin-top:18px">
-        <a class="btn btn--wood" href="index.html#reservas">Ir a Reservas</a>
-        <a class="btn" href="index.html#inicio" style="margin-left:10px">Volver al inicio</a>
-      </div>
-    </div>
-  </main>
+<script src="galeria.js"></script>
 
-  <div id="lightbox" class="lightbox" role="dialog" aria-label="Imagen ampliada">
-    <img id="lightbox-img" alt="Imagen ampliada" />
-  </div>
-
-  <script src="app.js"></script>
-  <script src="gallery.js"></script>
 </body>
 </html>
