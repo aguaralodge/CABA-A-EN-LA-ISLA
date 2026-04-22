@@ -1,4 +1,5 @@
 const { upsertReserva, sendOwnerWhatsAppText } = require('./_lib/reservas');
+const { calculateReservationTotal, normalizeSenia } = require('./_lib/pricing');
 
 function ok(res) {
   res.statusCode = 200;
@@ -42,15 +43,17 @@ module.exports = async (req, res) => {
 
       const meta = p.metadata || {};
       const ref = p.external_reference || meta.ref || `PAY-${paymentId}`;
-      const total = meta.total ? parseInt(meta.total, 10) : null;
-      const senia = meta.senia ? parseInt(meta.senia, 10) : 25000;
+      const noches = meta.noches ? parseInt(meta.noches, 10) : null;
+      const personas = meta.personas ? parseInt(meta.personas, 10) : null;
+      const total = meta.total ? parseInt(meta.total, 10) : (noches && personas ? calculateReservationTotal(personas, noches) : null);
+      const senia = normalizeSenia(meta.senia);
 
       const reserva = await upsertReserva({
         ref,
         checkin: meta.checkin || null,
         checkout: meta.checkout || null,
-        noches: meta.noches ? parseInt(meta.noches, 10) : null,
-        personas: meta.personas ? parseInt(meta.personas, 10) : null,
+        noches,
+        personas,
         nombre: meta.nombre || '',
         email: meta.email || '',
         tel: meta.tel || '',

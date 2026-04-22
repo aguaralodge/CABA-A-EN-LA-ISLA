@@ -1,4 +1,5 @@
 const { json, siteUrl } = require('./_lib/reservas');
+const { normalizeSenia } = require('./_lib/pricing');
 
 function makeRef() {
   const r = Math.random().toString(16).slice(2);
@@ -23,7 +24,7 @@ module.exports = async (req, res) => {
 
     const ref = makeRef();
     const base = siteUrl(req);
-    const senia = Number(data.senia || 25000);
+    const senia = normalizeSenia(data.senia);
 
     const preference = {
       items: [

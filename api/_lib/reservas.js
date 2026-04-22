@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
+const { calculateReservationTotal, normalizeSenia } = require('./pricing');
 
 function json(res, status, body) {
   res.statusCode = status;
@@ -46,20 +47,24 @@ function statusLabel(status) {
 
 function normalizeReservation(row) {
   if (!row || typeof row !== 'object') return null;
-  const total = Number(row.total || 0);
-  const senia = Number(row.senia || 0);
+  const noches = Number(row.noches || 0);
+  const personas = Number(row.personas || 0);
+  const derivedTotal = noches > 0 && personas > 0 ? calculateReservationTotal(personas, noches) : 0;
+  const rawTotal = Number(row.total || 0);
+  const total = derivedTotal > 0 ? derivedTotal : rawTotal;
+  const senia = Number(row.senia) === 0 ? 0 : normalizeSenia(row.senia);
   return {
     ref: row.ref || '',
     checkin: row.checkin || '',
     checkout: row.checkout || '',
-    noches: Number(row.noches || 0),
-    personas: Number(row.personas || 0),
+    noches,
+    personas,
     nombre: row.nombre || '',
     email: row.email || '',
     tel: row.tel || '',
     total,
     senia,
-    saldo: Number(row.saldo ?? Math.max(0, total - senia)),
+    saldo: Math.max(0, total - senia),
     payment_id: row.payment_id ? String(row.payment_id) : '',
     status: row.status || '',
     created_at: row.created_at || '',

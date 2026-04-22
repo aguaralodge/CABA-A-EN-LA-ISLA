@@ -5,6 +5,7 @@
 // - SUPABASE_SERVICE_ROLE_KEY
 //
 // Inserts a row into public.reservas with status "blocked" (cash/manual reservation)
+const { calculateReservationTotal } = require('../_lib/pricing');
 
 function json(res, status, body) {
   res.statusCode = status;
@@ -36,9 +37,7 @@ function nights(checkin, checkout) {
 }
 
 function calcTotal(n, personas) {
-  const base = 150000;
-  const extra = Math.max(0, (personas || 1) - 6) * 25000;
-  return (base + extra) * n;
+  return calculateReservationTotal(personas, n);
 }
 
 module.exports = async (req, res) => {
