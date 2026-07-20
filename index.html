@@ -3,253 +3,583 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aguara Lodge | Cabaña en la Isla </title>
-  <meta name="description" content="Aguara Lodge: cabañas en las islas del Paraná (norte de Santa Fe). Naturaleza, pesca deportiva y descanso auténtico." />
+
+  <title>Aguará Lodge | Cabaña en la isla</title>
+
+  <meta
+    name="description"
+    content="Aguará Lodge: cabañas en las islas del Paraná, al norte de Santa Fe. Naturaleza, pesca deportiva y descanso auténtico."
+  />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+  >
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
   <nav class="nav">
     <div class="nav__wrap">
-      <a href="#" class="brand" aria-label="Aguara Lodge - ir al inicio">
+
+      <a href="#inicio" class="brand" aria-label="Aguará Lodge, ir al inicio">
         <div class="brand__mark" id="logoBox" aria-hidden="true"></div>
+
         <div class="brand__txt">
-          <span class="brand__name">Aguara Lodge</span>
+          <span class="brand__name">Aguará Lodge</span>
           <span class="brand__tag">Reconquista · Santa Fe</span>
         </div>
       </a>
+
       <div class="nav__spacer"></div>
+
       <div class="nav__links" id="navLinks">
         <a href="#cabanas">Cabañas</a>
         <a href="#actividades">Actividades</a>
-        
         <a href="galeria.html">Galería</a>
-<a href="#reservas" class="cta">Reservas</a>
+        <a href="#reservas" class="cta">Reservas</a>
       </div>
-      <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+
+      <button
+        class="menu-btn"
+        id="menuBtn"
+        type="button"
+        aria-label="Abrir menú"
+        aria-controls="navLinks"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+
     </div>
   </nav>
 
+
   <header class="hero" id="inicio">
     <div class="hero__bg"></div>
+
     <div class="hero__wrap">
+
       <div>
-        <div class="kicker">Naturaleza · Pesca deportiva · Descanso</div>
-        <h1>Viví Aguara Lodge</h1>
-        <p class="lead">Cabañas cómodas construidas en familia, rodeadas de monte nativo y costa. Amaneceres de río, atardeceres rojos, noches de estrellas. Todo listo para disfrutar, pescar y desconectar.</p>
+        <div class="kicker">
+          Naturaleza · Pesca deportiva · Descanso
+        </div>
+
+        <h1>Viví Aguará Lodge</h1>
+
+        <p class="lead">
+          Cabañas cómodas construidas en familia, rodeadas de monte nativo y costa.
+          Amaneceres de río, atardeceres rojos y noches de estrellas. Todo listo
+          para disfrutar, pescar y desconectar.
+        </p>
+
         <div class="hero__actions">
-          <a class="btn btn--filled" href="#reservas">Consultar disponibilidad</a>
-          <a class="btn btn--wood" href="#cabanas">Ver cabañas</a>
+          <a class="btn btn--filled" href="#reservas">
+            Consultar disponibilidad
+          </a>
+
+          <a class="btn btn--wood" href="#cabanas">
+            Ver cabañas
+          </a>
         </div>
       </div>
+
       <figure class="hero__card">
-        <img class="hero__img" src="assets/hero.jpg" alt="Atardecer con mate frente al río" loading="eager" />
-        <figcaption class="hero__caption">Reconquista · Norte de Santa Fe</figcaption>
+        <img
+          class="hero__img"
+          src="assets/hero.jpg"
+          alt="Atardecer con mate frente al río"
+          loading="eager"
+        />
+
+        <figcaption class="hero__caption">
+          Reconquista · Norte de Santa Fe
+        </figcaption>
       </figure>
+
     </div>
   </header>
 
-  <section id="cabanas">
-    <div class="wrap">
-      <div class="section__title">
-        <h2>Nuestras Cabañas</h2>
-        <p>Espacios cálidos con detalles en madera, la paz de la naturaleza y todo lo necesario para tu estadía en la isla.</p>
-      </div>
-      <div class="gallery" id="gallery">
-        <article class="card">
-          <img src="assets/gal1.jpg" alt="Muelle y lanchas frente al río" />
-          <div class="card__body">
-            <span class="badge">Costa</span>
-            <h3>Vista al Río</h3>
-            <p>Excelente vista al Río San Jerónimo, a pocos minutos del Paraná</p>
-          </div>
-        </article>
-        <article class="card">
-          <img src="assets/gal2.jpg" alt="Asado y fogón bajo los árboles" />
-          <div class="card__body">
-            <span class="badge">Espacios</span>
-            <h3>Comer rico es obligatorio</h3>
-            <p>Cocina equipada, parrilleros dentro y fuera de la cabaña, espacios para asado a la estaca</p>
-          </div>
-        </article>
-        <article class="card">
-          <img src="assets/gal3.jpg" alt="Cabaña y galería con sombra" />
-          <div class="card__body">
-            <span class="badge">Parquizado</span>
-            <h3>Disfrutar de la naturaleza y desconectar</h3>
-            <p>Amplio parquizado, con silletas, mesas y bancos de gran comodidad</p>
-          </div>
-        </article>
-        <article class="card">
-          <img src="assets/gal4.jpg" alt="Sendero a la costa con portón" />
-          <div class="card__body">
-            <span class="badge">Acceso a la costa</span>
-            <h3>Camino de piedra</h3>
-            <p>Salida directa al río entre árboles nativos y un gran paisaje.</p>
-          </div>
-        </article>
-        <article class="card">
-          <img src="assets/gal5.jpg" alt="Puesta de sol sobre el río" />
-          <div class="card__body">
-            <span class="badge">Amaneceres & atardeceres</span>
-            <h3>Cielo de isla</h3>
-            <p>Colores únicos para cerrar el día junto al agua.</p>
-          </div>
-        </article>
-        <article class="card">
-          <img src="assets/gal6.jpg" alt="Mono carayá en el monte" />
-          <div class="card__body">
-            <span class="badge">Naturaleza</span>
-            <h3>Fauna autóctona</h3>
-            <p>Posibles avistajes de monos carayá, aves, iguanas, etc.</p>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
 
-  <section id="actividades">
-    <div class="wrap">
-      <div class="section__title">
-        <h2>Actividades</h2>
-        <p>Elegí tu ritmo: pesca deportiva, paseos por arroyos, avistaje de aves o simplemente descansar bajo los árboles.</p>
-      </div>
-      <div class="grid-3">
-        <div class="feature">
-          <span class="badge">Pesca deportiva</span>
-          <h3>En todas las modalidades: Fly, Bait, Trolling, Carnada </h3>
-          <p>Coordinamos salidas con guías locales. Temporadas, carnadas y equipos recomendados.</p>
-        </div>
-        <div class="feature">
-          <span class="badge">Navegación</span>
-          <h3>Paseos por el Río</h3>
-          <p>Recorridos tranquilos para conocer lagunas, bancos de arena y lugares naturales llenos de belleza.</p>
-        </div>
-        <div class="feature">
-          <span class="badge">Relax</span>
-          <h3>Fogón y mate</h3>
-          <p>Espacios pensados para compartir la paz y tranquilidad de la isla.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <main>
 
-  <section id="reservas">
-    <div class="wrap">
-      <div class="section__title">
-        <h2>Reservas & Contacto</h2>
-        <p>Contanos fechas, cantidad de personas y que desean en su estyadía. Te respondemos por WhatsApp.</p>
-      </div>
-      <div class="contact">
-        <div class="contact__panel">
-          <form id="formReserva" aria-label="Formulario de consulta">
-            <div class="row">
-              <div>
-                <label for="nombre">Nombre</label>
-                <input id="nombre" name="nombre" type="text" placeholder="Tu nombre" required />
-              </div>
-              <div>
-                <label for="personas">Personas</label>
-                <select id="personas" name="personas">
-                  
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option selected>6</option>
-                  <option>7</option>
-                  <option>8</option>
-                  <option>9</option>
-                  <option>10</option>
-                  <option>11</option>
-                  <option>12</option>
-                </select>
-              </div>
-            </div>
-            <div class="row">
-              <div>
-                <label for="ingreso">Ingreso</label>
-                <input id="ingreso" name="ingreso" type="text" inputmode="none" autocomplete="off" required />
-              </div>
-              <div>
-                <label for="egreso">Egreso</label>
-                <input id="egreso" name="egreso" type="text" inputmode="none" autocomplete="off" required />
-              </div>
-            </div>
+    <section id="cabanas">
+      <div class="wrap">
 
-            <div class="calcbox">
-              <div class="calcbox__grid">
-                <div><span>Noches</span><strong id="calcNoches">-</strong></div>
-                <div><span>Total</span><strong id="calcTotal">-</strong></div>
-                <div><span>Seña</span><strong id="calcSenia">$30.000</strong></div>
-                <div><span>Saldo</span><strong id="calcSaldo">-</strong></div>
-              </div>
-              <button type="button" id="payBtn" class="btn btn--filled">Pagar seña $30.000 y reservar</button>
-              <p class="helper">La seña bloquea la fecha. El saldo se coordina por WhatsApp.</p>
-            </div>
+        <div class="section__title">
+          <h2>Nuestras Cabañas</h2>
 
-            <div class="row">
-              <div style="grid-column: 1 / -1;">
-                <label for="notas">Notas del huésped</label>
-                <textarea id="notas" name="notas" rows="3" placeholder="Ej: llegamos 18hs, llevamos mascota, necesitamos traslado, etc."></textarea>
-              </div>
-              <div>
-                <label for="tel">Teléfono (opcional)</label>
-                <input id="tel" name="tel" type="tel" placeholder="3482 632269" />
-              </div>
-            </div>
-            <div>
-              <label for="mensaje">Mensaje</label>
-              <textarea id="mensaje" name="mensaje" rows="4" placeholder="Contanos si necesitás guía de pesca, si traen embarcación, etc."></textarea>
-              <p class="helper">Al enviar, abriremos WhatsApp para completar la consulta.</p>
-            </div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
-              <button type="submit" class="btn btn--filled">Enviar por WhatsApp</button>
-              <a class="btn" href="https://wa.me/543482632269" target="_blank" rel="noopener">Escribir directo</a>
-            </div>
-          </form>
+          <p>
+            Espacios cálidos con detalles en madera, la paz de la naturaleza y
+            todo lo necesario para tu estadía en la isla.
+          </p>
         </div>
-        <div>
-          <div class="feature" style="height:100%">
-            <span class="badge">¿Cómo llegar?</span>
-            <h3>Zona de islas · Norte de Santa Fe</h3>
-            <p> Si no cuentan con embarcacion propia, coordinamos el punto de encuentro y el cruce en lancha según el nivel del río y el clima.</p>
-            <div style="border-radius:14px;overflow:hidden;border:1px solid rgba(0,0,0,.1);box-shadow:var(--sombra)">
-              <img src="assets/hero.jpg" alt="Río y vegetación de humedal" style="display:block;width:100%;aspect-ratio:4/3;object-fit:cover">
+
+        <div class="gallery" id="gallery">
+
+          <article class="card">
+            <img
+              src="assets/gal1.jpg"
+              alt="Muelle y lanchas frente al río"
+              loading="lazy"
+            />
+
+            <div class="card__body">
+              <span class="badge">Costa</span>
+              <h3>Vista al río</h3>
+
+              <p>
+                Excelente vista al río San Jerónimo, a pocos minutos del Paraná.
+              </p>
             </div>
-            <p class="helper" style="margin-top:10px">WhatsApp: <strong>3482 632269</strong></p>
+          </article>
+
+
+          <article class="card">
+            <img
+              src="assets/gal2.jpg"
+              alt="Asado y fogón bajo los árboles"
+              loading="lazy"
+            />
+
+            <div class="card__body">
+              <span class="badge">Espacios</span>
+              <h3>Comer rico es obligatorio</h3>
+
+              <p>
+                Cocina equipada, parrilleros dentro y fuera de la cabaña y
+                espacios para asado a la estaca.
+              </p>
+            </div>
+          </article>
+
+
+          <article class="card">
+            <img
+              src="assets/gal3.jpg"
+              alt="Cabaña y galería con sombra"
+              loading="lazy"
+            />
+
+            <div class="card__body">
+              <span class="badge">Parquizado</span>
+              <h3>Disfrutar de la naturaleza y desconectar</h3>
+
+              <p>
+                Amplio parquizado con sillones, mesas y bancos de gran comodidad.
+              </p>
+            </div>
+          </article>
+
+
+          <article class="card">
+            <img
+              src="assets/gal4.jpg"
+              alt="Sendero a la costa con portón"
+              loading="lazy"
+            />
+
+            <div class="card__body">
+              <span class="badge">Acceso a la costa</span>
+              <h3>Camino de piedra</h3>
+
+              <p>
+                Salida directa al río entre árboles nativos y un gran paisaje.
+              </p>
+            </div>
+          </article>
+
+
+          <article class="card">
+            <img
+              src="assets/gal5.jpg"
+              alt="Puesta de sol sobre el río"
+              loading="lazy"
+            />
+
+            <div class="card__body">
+              <span class="badge">Amaneceres y atardeceres</span>
+              <h3>Cielo de isla</h3>
+
+              <p>
+                Colores únicos para cerrar el día junto al agua.
+              </p>
+            </div>
+          </article>
+
+
+          <article class="card">
+            <img
+              src="assets/gal6.jpg"
+              alt="Mono carayá en el monte"
+              loading="lazy"
+            />
+
+            <div class="card__body">
+              <span class="badge">Naturaleza</span>
+              <h3>Fauna autóctona</h3>
+
+              <p>
+                Posibles avistajes de monos carayá, aves, iguanas y otras especies.
+              </p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <section id="actividades">
+      <div class="wrap">
+
+        <div class="section__title">
+          <h2>Actividades</h2>
+
+          <p>
+            Elegí tu ritmo: pesca deportiva, paseos por arroyos, avistaje de aves
+            o simplemente descansar bajo los árboles.
+          </p>
+        </div>
+
+        <div class="grid-3">
+
+          <div class="feature">
+            <span class="badge">Pesca deportiva</span>
+            <h3>En todas las modalidades</h3>
+
+            <p>
+              Fly, bait, trolling y carnada. Coordinamos salidas con guías locales,
+              temporadas, carnadas y equipos recomendados.
+            </p>
           </div>
+
+
+          <div class="feature">
+            <span class="badge">Navegación</span>
+            <h3>Paseos por el río</h3>
+
+            <p>
+              Recorridos tranquilos para conocer lagunas, bancos de arena y
+              rincones naturales llenos de belleza.
+            </p>
+          </div>
+
+
+          <div class="feature">
+            <span class="badge">Relax</span>
+            <h3>Fogón y mate</h3>
+
+            <p>
+              Espacios pensados para compartir la paz y la tranquilidad de la isla.
+            </p>
+          </div>
+
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+
+    <section id="reservas">
+      <div class="wrap">
+
+        <div class="section__title">
+          <h2>Reservas y contacto</h2>
+
+          <p>
+            Contanos las fechas, la cantidad de personas y qué desean para su
+            estadía. Te respondemos por WhatsApp.
+          </p>
+        </div>
+
+        <div class="contact">
+
+          <div class="contact__panel">
+
+            <form id="formReserva" aria-label="Formulario de consulta">
+
+              <div class="row">
+
+                <div>
+                  <label for="nombre">Nombre</label>
+
+                  <input
+                    id="nombre"
+                    name="nombre"
+                    type="text"
+                    placeholder="Tu nombre"
+                    required
+                  />
+                </div>
+
+
+                <div>
+                  <label for="personas">Personas</label>
+
+                  <select id="personas" name="personas">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option selected>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                    <option>12</option>
+                  </select>
+                </div>
+
+              </div>
+
+
+              <div class="row">
+
+                <div>
+                  <label for="ingreso">Ingreso</label>
+
+                  <input
+                    id="ingreso"
+                    name="ingreso"
+                    type="text"
+                    inputmode="none"
+                    autocomplete="off"
+                    required
+                  />
+                </div>
+
+
+                <div>
+                  <label for="egreso">Egreso</label>
+
+                  <input
+                    id="egreso"
+                    name="egreso"
+                    type="text"
+                    inputmode="none"
+                    autocomplete="off"
+                    required
+                  />
+                </div>
+
+              </div>
+
+
+              <div class="calcbox">
+
+                <div class="calcbox__grid">
+                  <div>
+                    <span>Noches</span>
+                    <strong id="calcNoches">-</strong>
+                  </div>
+
+                  <div>
+                    <span>Total</span>
+                    <strong id="calcTotal">-</strong>
+                  </div>
+
+                  <div>
+                    <span>Seña</span>
+                    <strong id="calcSenia">$30.000</strong>
+                  </div>
+
+                  <div>
+                    <span>Saldo</span>
+                    <strong id="calcSaldo">-</strong>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  id="payBtn"
+                  class="btn btn--filled"
+                >
+                  Pagar seña de $30.000 y reservar
+                </button>
+
+                <p class="helper">
+                  La seña bloquea la fecha. El saldo se coordina por WhatsApp.
+                </p>
+              </div>
+
+
+              <div class="row">
+
+                <div class="field-full">
+                  <label for="notas">Notas del huésped</label>
+
+                  <textarea
+                    id="notas"
+                    name="notas"
+                    rows="3"
+                    placeholder="Ejemplo: llegamos a las 18, llevamos mascota o necesitamos traslado."
+                  ></textarea>
+                </div>
+
+
+                <div>
+                  <label for="tel">Teléfono (opcional)</label>
+
+                  <input
+                    id="tel"
+                    name="tel"
+                    type="tel"
+                    placeholder="3482 632269"
+                  />
+                </div>
+
+              </div>
+
+
+              <div>
+                <label for="mensaje">Mensaje</label>
+
+                <textarea
+                  id="mensaje"
+                  name="mensaje"
+                  rows="4"
+                  placeholder="Contanos si necesitás guía de pesca, si traen embarcación, etc."
+                ></textarea>
+
+                <p class="helper">
+                  Al enviar, abriremos WhatsApp para completar la consulta.
+                </p>
+              </div>
+
+
+              <div class="form-actions">
+
+                <button type="submit" class="btn btn--filled">
+                  Enviar por WhatsApp
+                </button>
+
+                <a
+                  class="btn"
+                  href="https://wa.me/5493482632269?text=Hola%20Emiliano%2C%20quisiera%20consultar%20por%20Aguar%C3%A1%20Lodge."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Escribir directo
+                </a>
+
+              </div>
+
+            </form>
+          </div>
+
+
+          <div>
+
+            <div class="feature feature--full">
+
+              <span class="badge">¿Cómo llegar?</span>
+
+              <h3>Zona de islas · Norte de Santa Fe</h3>
+
+              <p>
+                Si no cuentan con embarcación propia, coordinamos el punto de
+                encuentro y el cruce en lancha según el nivel del río y el clima.
+              </p>
+
+              <div class="contact__image">
+                <img
+                  src="assets/hero.jpg"
+                  alt="Río y vegetación de humedal"
+                  loading="lazy"
+                >
+              </div>
+
+              <p class="helper helper--contact">
+                WhatsApp: <strong>3482 632269</strong>
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
 
   <footer>
     <div class="footer">
-      <div style="display:flex;align-items:center;gap:10px">
-        <div class="brand__mark" aria-hidden="true" style="width:28px;height:28px"></div>
-        <strong>Aguara Lodge</strong>
+
+      <div class="footer__brand">
+        <div
+          class="brand__mark brand__mark--footer"
+          aria-hidden="true"
+        ></div>
+
+        <strong>Aguará Lodge</strong>
       </div>
+
       <div class="socials">
         <span class="pill">IG</span>
         <span class="pill">FB</span>
         <a class="pill" href="#reservas">WhatsApp</a>
       </div>
-      <small>© <span id="yy"></span> Aguara Lodge - Reconquista - Santa Fe </small>
+
+      <small>
+        © <span id="yy"></span> Aguará Lodge · Reconquista · Santa Fe
+      </small>
+
     </div>
   </footer>
 
-<div id="lightbox" class="lightbox" role="dialog" aria-label="Imagen ampliada">
-  <img id="lightbox-img" alt="Imagen ampliada" />
+
+  <div
+    id="lightbox"
+    class="lightbox"
+    role="dialog"
+    aria-label="Imagen ampliada"
+    aria-modal="true"
+  >
+    <img id="lightbox-img" alt="Imagen ampliada" />
   </div>
+
+
+  <!-- Botón flotante de WhatsApp -->
+  <a
+    class="whatsapp-float"
+    href="https://wa.me/5493482632269?text=Hola%20Emiliano%2C%20quisiera%20consultar%20por%20Aguar%C3%A1%20Lodge."
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Consultar por WhatsApp con Emiliano"
+  >
+    <span class="whatsapp-float__message">
+      Bienvenido a Aguará Lodge, me llamo Emiliano. ¿En qué puedo ayudarte?
+    </span>
+
+    <span class="whatsapp-float__icon" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        role="img"
+        focusable="false"
+      >
+        <path d="M20.52 3.48A11.82 11.82 0 0 0 12.03 0C5.4 0 .03 5.37.03 12c0 2.12.55 4.2 1.6 6.03L0 24l6.17-1.6A11.96 11.96 0 0 0 12.03 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.2-3.51-8.52ZM12.03 21.8a9.82 9.82 0 0 1-5.02-1.38l-.36-.21-3.66.95.98-3.57-.24-.37A9.82 9.82 0 1 1 21.85 12a9.84 9.84 0 0 1-9.82 9.8Zm5.45-7.35c-.3-.15-1.8-.89-2.08-.99-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.08-.3-.15-1.28-.47-2.44-1.5-.9-.8-1.5-1.8-1.67-2.1-.18-.3-.02-.46.13-.6.14-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.64-.94-2.25-.25-.6-.5-.52-.68-.53h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.03-1.05 2.52s1.08 2.92 1.23 3.13c.15.2 2.1 3.2 5.08 4.48.71.3 1.27.48 1.7.62.72.23 1.38.2 1.9.12.58-.08 1.8-.73 2.05-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35Z"/>
+      </svg>
+    </span>
+  </a>
+
 
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="config.js"></script>
   <script src="app.js"></script>
+
 </body>
 </html>
