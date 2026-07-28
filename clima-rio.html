@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clima, río y pique | Aguará Lodge</title>
+  <meta name="description" content="Pronóstico del tiempo, alturas de los ríos y tabla solunar orientativa para la zona de Aguará Lodge." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__wrap">
+      <a href="index.html" class="brand" aria-label="Aguará Lodge, ir al inicio">
+        <div class="brand__mark" aria-hidden="true"></div>
+        <div class="brand__txt">
+          <span class="brand__name">Aguará Lodge</span>
+          <span class="brand__tag">Reconquista · Santa Fe</span>
+        </div>
+      </a>
+      <div class="nav__spacer"></div>
+      <div class="nav__links" id="navLinks">
+        <a href="index.html#cabanas">Cabañas</a>
+        <a href="index.html#actividades">Actividades</a>
+        <a href="galeria.html">Galería</a>
+        <a href="clima-rio.html" aria-current="page">Clima, río y pique</a>
+        <a href="index.html#reservas" class="cta">Reservas</a>
+      </div>
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="Abrir menú" aria-controls="navLinks" aria-expanded="false">☰</button>
+    </div>
+  </nav>
+
+  <main class="clima-page">
+    <header class="clima-page__hero">
+      <div class="wrap">
+        <span class="weather-eyebrow">Aguará Lodge · Información para tu salida</span>
+        <h1>Clima, río y pique</h1>
+        <p>Una mirada rápida al tiempo, las alturas hidrométricas y los períodos solunares de la zona.</p>
+      </div>
+    </header>
+
+    <section id="clima-rio" class="clima-rio-section clima-rio-section--page">
+      <div class="wrap">
+        <div class="section__title">
+          <h2>Pronóstico para Reconquista</h2>
+          <p>Datos meteorológicos automáticos para planificar el viaje y la estadía.</p>
+        </div>
+        <div class="weather-panel" aria-live="polite">
+          <div class="weather-current">
+            <div>
+              <span class="weather-eyebrow">Reconquista · Ahora</span>
+              <div class="weather-mainline"><span id="weatherIcon" class="weather-icon" aria-hidden="true">🌤️</span><strong id="weatherTemp" class="weather-temp">--°</strong></div>
+              <h3 id="weatherDescription">Cargando pronóstico…</h3>
+              <p id="weatherUpdated" class="data-updated">Consultando datos meteorológicos</p>
+            </div>
+            <div class="weather-stats">
+              <div><span>Sensación</span><strong id="weatherFeels">--°</strong></div>
+              <div><span>Humedad</span><strong id="weatherHumidity">--%</strong></div>
+              <div><span>Viento</span><strong id="weatherWind">-- km/h</strong></div>
+              <div><span>Ráfagas</span><strong id="weatherGust">-- km/h</strong></div>
+              <div><span>Lluvia hoy</span><strong id="weatherRain">--%</strong></div>
+              <div><span>Puesta del sol</span><strong id="weatherSunset">--:--</strong></div>
+            </div>
+          </div>
+          <div id="forecastDays" class="forecast-days"><div class="forecast-skeleton">Cargando pronóstico de 7 días…</div></div>
+        </div>
+
+        <div class="river-heading">
+          <div><span class="weather-eyebrow">Lecturas hidrométricas</span><h3>Altura de los ríos</h3></div>
+          <button id="refreshClimateRiver" class="btn btn--wood" type="button">Actualizar datos</button>
+        </div>
+        <div id="riverCards" class="river-grid">
+          <article class="river-card river-card--loading"><h3>Reconquista</h3><p>Consultando altura…</p></article>
+          <article class="river-card river-card--loading"><h3>Puerto Iguazú</h3><p>Consultando altura…</p></article>
+          <article class="river-card river-card--loading"><h3>Andresito</h3><p>Consultando altura…</p></article>
+        </div>
+
+        <div class="solunar-heading">
+          <div><span class="weather-eyebrow">Referencia para pescadores</span><h3>Tabla solunar de pique</h3></div>
+          <div class="solunar-date-nav">
+            <button id="solunarPrev" type="button" aria-label="Día anterior">‹</button>
+            <strong id="solunarDate">Hoy</strong>
+            <button id="solunarNext" type="button" aria-label="Día siguiente">›</button>
+          </div>
+        </div>
+        <div id="solunarPanel" class="solunar-panel" aria-live="polite">
+          <div class="forecast-skeleton">Calculando fase lunar y períodos de actividad…</div>
+        </div>
+
+        <div class="river-note">
+          <strong>Importante:</strong> las alturas, el pronóstico y la tabla solunar son referencias orientativas. El pique también depende de presión, viento, temperatura del agua, transparencia, caudal, especie y comportamiento local. Antes de navegar, verificá las condiciones reales y los avisos oficiales.
+          <a href="https://alerta.ina.gob.ar/" target="_blank" rel="noopener noreferrer">Ver fuente oficial del INA</a>.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="footer"><div class="footer__brand"><div class="brand__mark brand__mark--footer" aria-hidden="true"></div><strong>Aguará Lodge</strong></div><div class="socials"><a class="pill" href="index.html">Inicio</a><a class="pill" href="index.html#reservas">WhatsApp</a></div><small>© <span id="yy"></span> Aguará Lodge · Reconquista · Santa Fe</small></div></footer>
+
+  <a class="whatsapp-float" href="https://wa.me/5493482632269?text=Hola%20Emiliano%2C%20quisiera%20consultar%20por%20Aguar%C3%A1%20Lodge." target="_blank" rel="noopener noreferrer" aria-label="Consultar por WhatsApp con Emiliano">
+    <span class="whatsapp-float__message">Bienvenido a Aguará Lodge, me llamo Emiliano. ¿En qué puedo ayudarte?</span>
+    <span class="whatsapp-float__icon" aria-hidden="true"><svg viewBox="0 0 24 24" role="img" focusable="false"><path d="M20.52 3.48A11.82 11.82 0 0 0 12.03 0C5.4 0 .03 5.37.03 12c0 2.12.55 4.2 1.6 6.03L0 24l6.17-1.6A11.96 11.96 0 0 0 12.03 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.2-3.51-8.52ZM12.03 21.8a9.82 9.82 0 0 1-5.02-1.38l-.36-.21-3.66.95.98-3.57-.24-.37A9.82 9.82 0 1 1 21.85 12a9.84 9.84 0 0 1-9.82 9.8Zm5.45-7.35c-.3-.15-1.8-.89-2.08-.99-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.08-.3-.15-1.28-.47-2.44-1.5-.9-.8-1.5-1.8-1.67-2.1-.18-.3-.02-.46.13-.6.14-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.64-.94-2.25-.25-.6-.5-.52-.68-.53h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.03-1.05 2.52s1.08 2.92 1.23 3.13c.15.2 2.1 3.2 5.08 4.48.71.3 1.27.48 1.7.62.72.23 1.38.2 1.9.12.58-.08 1.8-.73 2.05-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35Z"/></svg></span>
+  </a>
+
+  <script src="https://unpkg.com/suncalc@1.9.0/suncalc.js"></script>
+  <script src="clima-rio.js"></script>
+</body>
+</html>
