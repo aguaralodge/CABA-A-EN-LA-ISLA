@@ -1,0 +1,37 @@
+
+:root{
+  --wood:#A0764E;
+  --river:#3B82F6;
+  --leaf:#22C55E;
+  --bg:#0f172a;
+}
+body{ font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+.font-display{ font-family: 'Playfair Display', serif; }
+.logo-gradient{ background: linear-gradient(135deg, var(--leaf), #86efac 40%, #4ade80); }
+.river-gradient{ background-image: linear-gradient(90deg, #86efac, #60a5fa); }
+
+.card-feature{
+  border-radius: 1rem;
+  border: 1px solid rgba(148,163,184,0.25);
+  background: rgba(30,41,59,0.4);
+  padding: 1.25rem;
+}
+.icon-box{ height: 2.5rem; width: 2.5rem; border-radius: 0.8rem; background: linear-gradient(135deg, var(--leaf), var(--river)); margin-bottom: 0.75rem;}
+.feature-title{ font-weight: 600; font-size: 1.125rem; margin-bottom: 0.25rem;}
+.feature-text{ color: rgba(226,232,240,0.9);}
+
+.gallery-item{
+  position: relative; overflow: hidden; border-radius: 1rem; border: 1px solid rgba(16,185,129,0.35); background: rgba(30,41,59,0.5);
+}
+.gallery-item img{ width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; transform: scale(1.0); transition: transform .3s ease-in-out; }
+.gallery-item:hover img{ transform: scale(1.05); }
+
+.card-pricing{
+  border-radius: 1rem; border: 1px solid rgba(16,185,129,0.35); background: rgba(15,23,42,0.45); padding: 1.5rem; box-shadow: 0 6px 24px rgba(16,185,129,0.12);
+}
+.price{ font-size: 1.875rem; font-weight: 800; color: var(--leaf); margin: .25rem 0 .5rem; }
+.btn-wa{ display:inline-flex; border-radius: .75rem; padding: .5rem 1rem; background: var(--leaf); color: #0f172a; font-weight: 700; }
+.btn-wa:hover{ filter: brightness(1.05); }
+
+.li-dot{ display:flex; gap:.6rem; }
+.li-dot::before{ content:''; margin-top:.55rem; height:.45rem; width:.45rem; border-radius:999px; background: var(--leaf); flex: none; }

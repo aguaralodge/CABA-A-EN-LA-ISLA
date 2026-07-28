@@ -58,11 +58,12 @@
     }).join('');
   }
 
-  async function loadClimateRiver(){
+  async function loadClimateRiver(forceRefresh = false){
     const button = $('refreshClimateRiver');
     if (button){ button.disabled = true; button.textContent = 'Actualizando…'; }
     try {
-      const response = await fetch('/api/climate-river', {cache:'no-store'});
+      const endpoint = forceRefresh ? '/api/climate-river?refresh=1&t=' + Date.now() : '/api/climate-river';
+      const response = await fetch(endpoint, {cache:'no-store'});
       if (!response.ok) throw new Error('Servicio temporalmente no disponible');
       const data = await response.json();
       climateData = data;
@@ -188,7 +189,7 @@
       <div class="solunar-sunmoon"><span>☀️ Sol: ${time(sunTimes.sunrise)} / ${time(sunTimes.sunset)}</span><span>🌙 Luna: ${time(rise)} / ${time(set)}</span></div>`;
   }
 
-  $('refreshClimateRiver')?.addEventListener('click', loadClimateRiver);
+  $('refreshClimateRiver')?.addEventListener('click', () => loadClimateRiver(true));
   $('solunarPrev')?.addEventListener('click',()=>{selectedDate.setDate(selectedDate.getDate()-1);renderSolunar();});
   $('solunarNext')?.addEventListener('click',()=>{selectedDate.setDate(selectedDate.getDate()+1);renderSolunar();});
   loadClimateRiver();
