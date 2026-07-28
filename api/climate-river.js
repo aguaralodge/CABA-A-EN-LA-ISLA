@@ -2,14 +2,14 @@ const WEATHER_URL = 'https://api.open-meteo.com/v1/forecast';
 const INA_PUB_DATA = 'https://alerta.ina.gob.ar/pub/datos/datos';
 
 // Códigos oficiales del catálogo SIyAH-INA.
-// Reconquista usa su serie horaria exacta. Iguazú y Andresito se consultan
-// por código de estación + variable 2 (altura hidrométrica), evitando cruces.
+// Las tres estaciones se consultan por código oficial de estación +
+// variable 2 (altura hidrométrica), evitando series mensuales o cruces.
 const STATIONS = [
   {
     id: 'reconquista',
     name: 'Reconquista',
     river: 'Río Paraná',
-    query: { seriesId: '34847' }
+    query: { siteCode: '24', varId: '2' }
   },
   {
     id: 'puerto-iguazu',
