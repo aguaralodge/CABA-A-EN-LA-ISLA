@@ -766,3 +766,108 @@ footer{
     flex-basis:48px;
   }
 }
+
+/* CLIMA Y RÍO */
+.clima-rio-section{
+  background:linear-gradient(180deg,rgba(47,79,79,.96),rgba(29,52,52,.98));
+  color:#fff;
+}
+.clima-rio-section .section__title p{color:rgba(255,255,255,.78)}
+.weather-panel{
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:24px;
+  background:rgba(255,255,255,.08);
+  box-shadow:0 18px 50px rgba(0,0,0,.22);
+  backdrop-filter:blur(8px);
+}
+.weather-current{
+  display:grid;
+  grid-template-columns:.85fr 1.15fr;
+  gap:26px;
+  padding:28px;
+}
+.weather-eyebrow{
+  display:block;
+  margin-bottom:7px;
+  color:var(--arena);
+  font-size:.78rem;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.weather-mainline{display:flex;align-items:center;gap:14px}
+.weather-icon{font-size:3.2rem;line-height:1}
+.weather-temp{font-family:'Playfair Display',serif;font-size:clamp(3.2rem,8vw,5.7rem);line-height:1}
+.weather-current h3{margin:10px 0 4px;font-size:1.25rem}
+.data-updated{margin:0;color:rgba(255,255,255,.62);font-size:.84rem}
+.weather-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.weather-stats div{
+  min-height:82px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:14px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:15px;
+  background:rgba(0,0,0,.12);
+}
+.weather-stats span{color:rgba(255,255,255,.65);font-size:.78rem}
+.weather-stats strong{margin-top:5px;font-size:1.08rem}
+.forecast-days{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  border-top:1px solid rgba(255,255,255,.12);
+}
+.forecast-day{
+  padding:16px 9px;
+  text-align:center;
+  border-right:1px solid rgba(255,255,255,.1);
+}
+.forecast-day:last-child{border-right:none}
+.forecast-day__name{font-size:.78rem;font-weight:700;text-transform:capitalize}
+.forecast-day__icon{display:block;margin:8px 0;font-size:1.55rem}
+.forecast-day__temps{font-size:.88rem}
+.forecast-day__rain{display:block;margin-top:5px;color:#b9dcff;font-size:.72rem}
+.forecast-skeleton{grid-column:1/-1;padding:22px;text-align:center;color:rgba(255,255,255,.65)}
+.river-heading{display:flex;align-items:end;justify-content:space-between;gap:18px;margin:36px 0 16px}
+.river-heading h3{margin:0;font-family:'Playfair Display',serif;font-size:2rem}
+.river-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.river-card{
+  position:relative;
+  overflow:hidden;
+  min-height:235px;
+  padding:22px;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:20px;
+  background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.05));
+  box-shadow:0 12px 30px rgba(0,0,0,.18);
+}
+.river-card::after{
+  content:"";
+  position:absolute;
+  right:-30px;
+  bottom:-54px;
+  width:150px;
+  height:150px;
+  border:22px solid rgba(255,213,74,.10);
+  border-radius:50%;
+}
+.river-card__river{color:var(--arena);font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.river-card h3{position:relative;z-index:1;margin:6px 0 16px;font-size:1.45rem}
+.river-level{position:relative;z-index:1;display:flex;align-items:baseline;gap:7px}
+.river-level strong{font-family:'Playfair Display',serif;font-size:3.5rem;line-height:1}
+.river-level span{color:rgba(255,255,255,.7)}
+.river-trend{position:relative;z-index:1;display:inline-flex;align-items:center;gap:7px;margin-top:14px;padding:7px 11px;border-radius:999px;background:rgba(0,0,0,.18);font-size:.82rem;font-weight:600}
+.river-card .data-updated{position:relative;z-index:1;margin-top:15px}
+.river-card--error{border-color:rgba(255,213,74,.35)}
+.river-card--loading{animation:riverPulse 1.4s ease-in-out infinite alternate}
+@keyframes riverPulse{to{opacity:.55}}
+.river-note{margin-top:18px;padding:14px 16px;border-left:4px solid var(--arena);background:rgba(0,0,0,.13);color:rgba(255,255,255,.75);font-size:.84rem;line-height:1.55}
+.river-note a{color:var(--arena-clara);font-weight:600}
+@media(max-width:980px){.weather-current{grid-template-columns:1fr}.forecast-days{grid-template-columns:repeat(4,1fr)}.forecast-day{border-bottom:1px solid rgba(255,255,255,.1)}.river-grid{grid-template-columns:1fr}}
+@media(max-width:640px){.weather-current{padding:20px}.weather-stats{grid-template-columns:1fr 1fr}.forecast-days{grid-template-columns:repeat(2,1fr)}.river-heading{align-items:flex-start;flex-direction:column}.river-heading .btn{width:100%}}

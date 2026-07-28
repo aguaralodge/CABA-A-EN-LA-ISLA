@@ -47,6 +47,7 @@
         <a href="#cabanas">Cabañas</a>
         <a href="#actividades">Actividades</a>
         <a href="galeria.html">Galería</a>
+        <a href="#clima-rio">Clima y río</a>
         <a href="#reservas" class="cta">Reservas</a>
       </div>
 
@@ -285,6 +286,62 @@
             </p>
           </div>
 
+        </div>
+      </div>
+    </section>
+
+
+    <section id="clima-rio" class="clima-rio-section">
+      <div class="wrap">
+        <div class="section__title">
+          <h2>Clima y estado del río</h2>
+          <p>Información útil para planificar el viaje, la pesca y el cruce hacia Aguará Lodge. Los datos se actualizan automáticamente.</p>
+        </div>
+
+        <div class="weather-panel" aria-live="polite">
+          <div class="weather-current">
+            <div>
+              <span class="weather-eyebrow">Reconquista · Ahora</span>
+              <div class="weather-mainline">
+                <span id="weatherIcon" class="weather-icon" aria-hidden="true">🌤️</span>
+                <strong id="weatherTemp" class="weather-temp">--°</strong>
+              </div>
+              <h3 id="weatherDescription">Cargando pronóstico…</h3>
+              <p id="weatherUpdated" class="data-updated">Consultando datos meteorológicos</p>
+            </div>
+
+            <div class="weather-stats">
+              <div><span>Sensación</span><strong id="weatherFeels">--°</strong></div>
+              <div><span>Humedad</span><strong id="weatherHumidity">--%</strong></div>
+              <div><span>Viento</span><strong id="weatherWind">-- km/h</strong></div>
+              <div><span>Ráfagas</span><strong id="weatherGust">-- km/h</strong></div>
+              <div><span>Lluvia hoy</span><strong id="weatherRain">--%</strong></div>
+              <div><span>Puesta del sol</span><strong id="weatherSunset">--:--</strong></div>
+            </div>
+          </div>
+
+          <div id="forecastDays" class="forecast-days">
+            <div class="forecast-skeleton">Cargando pronóstico de 7 días…</div>
+          </div>
+        </div>
+
+        <div class="river-heading">
+          <div>
+            <span class="weather-eyebrow">Lecturas hidrométricas</span>
+            <h3>Altura de los ríos</h3>
+          </div>
+          <button id="refreshClimateRiver" class="btn btn--wood" type="button">Actualizar datos</button>
+        </div>
+
+        <div id="riverCards" class="river-grid">
+          <article class="river-card river-card--loading"><h3>Reconquista</h3><p>Consultando altura…</p></article>
+          <article class="river-card river-card--loading"><h3>Puerto Iguazú</h3><p>Consultando altura…</p></article>
+          <article class="river-card river-card--loading"><h3>Andresito</h3><p>Consultando altura…</p></article>
+        </div>
+
+        <div class="river-note">
+          <strong>Importante:</strong> las alturas son datos automáticos orientativos y pueden contener demoras o interrupciones. Antes de navegar, verificá las condiciones locales y los avisos oficiales.
+          <a href="https://alerta.ina.gob.ar/" target="_blank" rel="noopener noreferrer">Ver fuente oficial del INA</a>.
         </div>
       </div>
     </section>
