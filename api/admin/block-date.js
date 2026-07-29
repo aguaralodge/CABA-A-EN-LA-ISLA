@@ -78,6 +78,14 @@ module.exports = async (req, res) => {
   if (!n || n < 1) return json(res, 400, { error: "checkout debe ser posterior al checkin (mínimo 1 noche)." });
 
   const total = calcTotal(n, personas);
+  const requestedSenia = Number(data.senia || 0);
+  const senia = Number.isFinite(requestedSenia)
+    ? Math.min(total, Math.max(0, Math.round(requestedSenia)))
+    : 0;
+  const saldo = Math.max(0, total - senia);
+  const paymentMethod = String(data.payment_method || "efectivo")
+    .toLowerCase()
+    .replace(/[^a-z0-9_áéíóúñ-]/gi, "") || "efectivo";
 
   const ref = `EFECTIVO-${checkin.replaceAll("-", "")}-${Math.random().toString(16).slice(2, 8).toUpperCase()}`;
 
@@ -90,11 +98,12 @@ module.exports = async (req, res) => {
     nombre: data.nombre || null,
     tel: data.tel || null,
     total,
-    senia: 0,
-    saldo: total,
-    payment_id: null,
+    senia,
+    saldo,
+    // Se reutiliza payment_id para guardar el medio de pago manual sin exigir
+    // una migración de la tabla existente. Los pagos web conservan su ID real.
+    payment_id: `MANUAL:${paymentMethod}`,
     status: status,
-    // nota is not in table by default; ignore if not present
   };
 
   // Insert into Supabase REST

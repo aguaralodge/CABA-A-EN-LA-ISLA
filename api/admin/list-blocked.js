@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
 
   try {
     const endpoint = supabaseUrl.replace(/\/+$/, '') +
-      '/rest/v1/reservas?select=id,ref,checkin,checkout,nombre,personas,total,status,created_at&status=in.(blocked,approved,cash_pending)&checkin=not.is.null&checkout=not.is.null&order=checkin.asc';
+      '/rest/v1/reservas?select=id,ref,checkin,checkout,nombre,personas,total,senia,saldo,payment_id,status,created_at&status=in.(blocked,approved,cash_pending)&checkin=not.is.null&checkout=not.is.null&order=checkin.asc';
 
     const r = await fetch(endpoint, {
       headers: {

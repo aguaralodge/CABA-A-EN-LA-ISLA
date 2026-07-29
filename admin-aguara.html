@@ -20,8 +20,8 @@
 
   <main class="container" style="padding-top:24px; padding-bottom:60px;">
     <section class="card">
-      <h1 style="margin:0 0 6px 0;">Panel admin (bloquear fechas)</h1>
-      <p style="margin:0 0 18px 0; opacity:.85;">Bloqueo manual para reservas en efectivo o por fuera del pago online.</p>
+      <h1 style="margin:0 0 6px 0;">Panel admin (reservas manuales)</h1>
+      <p style="margin:0 0 18px 0; opacity:.85;">Cargá reservas recibidas por efectivo, transferencia u otro medio, sin modificar la reserva online.</p>
 
       <div class="grid" style="gap:14px;">
         <div class="card" style="padding:14px;">
@@ -36,7 +36,7 @@
         </div>
 
         <div class="card" style="padding:14px;">
-          <h3 style="margin:0 0 10px 0;">Bloquear fecha</h3>
+          <h3 style="margin:0 0 10px 0;">Crear reserva manual</h3>
 
           <div class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px;">
             <div>
@@ -60,24 +60,36 @@
               <input id="tel" class="inp" type="text" placeholder="Ej: 3482..." />
             </div>
             <div>
-              <label class="lbl">Nota interna (opcional)</label>
-              <input id="nota" class="inp" type="text" placeholder="Ej: paga en efectivo" />
+              <label class="lbl">Seña recibida</label>
+              <input id="senia" class="inp" type="number" min="0" step="1000" value="0" placeholder="Ej: 30000" />
             </div>
+            <div>
+              <label class="lbl">Forma de pago</label>
+              <select id="paymentMethod" class="inp">
+                <option value="efectivo">Efectivo</option>
+                <option value="transferencia">Transferencia</option>
+                <option value="mercado_pago">Mercado Pago</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+
           </div>
 
           <div class="card" style="margin-top:12px; padding:12px;">
             <div style="display:flex; gap:14px; flex-wrap:wrap;">
               <div><strong>Noches:</strong> <span id="noches">0</span></div>
               <div><strong>Total estimado:</strong> $<span id="total">0</span></div>
-              <div><strong>Estado:</strong> <span id="estado">blocked</span></div>
+              <div><strong>Seña:</strong> $<span id="seniaResumen">0</span></div>
+              <div><strong>Saldo:</strong> $<span id="saldo">0</span></div>
+              <div><strong>Estado:</strong> <span id="estado">Pendiente de seña</span></div>
             </div>
             <p style="margin:10px 0 0 0; opacity:.8; font-size:.95rem;">
-              El bloqueo guarda una reserva con estado <code>blocked</code> en Supabase y genera un comprobante PDF con logo para compartir.
+              La reserva bloquea las fechas y genera un comprobante PDF. La seña cargada se descuenta automáticamente del saldo.
             </p>
           </div>
 
           <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
-            <button id="btnBlock" class="btn">Bloquear fecha</button>
+            <button id="btnBlock" class="btn">Guardar reserva</button>
             <button id="btnClear" class="btn ghost" type="button">Limpiar</button>
           </div>
 
@@ -87,8 +99,8 @@
     </section>
   
     <section class="admin-card" style="margin-top:18px">
-      <h2 style="margin:0 0 10px">Fechas bloqueadas</h2>
-      <p class="muted" style="margin:0 0 12px">Estas son las fechas bloqueadas manualmente (efectivo, cambios, etc.). Podés desbloquearlas para que vuelvan a estar disponibles.</p>
+      <h2 style="margin:0 0 10px">Reservas manuales y fechas ocupadas</h2>
+      <p class="muted" style="margin:0 0 12px">Acá podés consultar el total, la seña, el saldo y descargar el comprobante. Las reservas manuales pueden cancelarse para liberar las fechas.</p>
       <div id="blockedList" class="blocked-list">
         <div class="muted">Cargando…</div>
       </div>

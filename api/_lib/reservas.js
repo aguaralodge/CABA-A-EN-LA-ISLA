@@ -52,7 +52,13 @@ function normalizeReservation(row) {
   const derivedTotal = noches > 0 && personas > 0 ? calculateReservationTotal(personas, noches) : 0;
   const rawTotal = Number(row.total || 0);
   const total = derivedTotal > 0 ? derivedTotal : rawTotal;
-  const senia = Number(row.senia) === 0 ? 0 : normalizeSenia(row.senia);
+  const isManual = String(row.payment_id || '').startsWith('MANUAL:');
+  const senia = isManual
+    ? Math.max(0, Number(row.senia || 0))
+    : (Number(row.senia) === 0 ? 0 : normalizeSenia(row.senia));
+  const storedSaldo = Number(row.saldo);
+  const saldo = Number.isFinite(storedSaldo) ? Math.max(0, storedSaldo) : Math.max(0, total - senia);
+  const paymentMethod = isManual ? String(row.payment_id).slice(7) : '';
   return {
     ref: row.ref || '',
     checkin: row.checkin || '',
@@ -64,8 +70,10 @@ function normalizeReservation(row) {
     tel: row.tel || '',
     total,
     senia,
-    saldo: Math.max(0, total - senia),
+    saldo,
     payment_id: row.payment_id ? String(row.payment_id) : '',
+    payment_method: paymentMethod,
+    is_manual: isManual,
     status: row.status || '',
     created_at: row.created_at || '',
   };
@@ -166,8 +174,8 @@ async function generateReservationPdfBuffer(reserva, opts = {}) {
     ['Total de la estadía', money(r.total)],
     ['Seña pagada', money(r.senia)],
     ['Saldo pendiente', money(r.saldo)],
-    ['Estado', statusLabel(r.status)],
-    ['Pago Mercado Pago', r.payment_id || '-'],
+    ['Estado', r.saldo <= 0 && r.total > 0 ? 'Pagada completamente' : r.senia > 0 ? 'Reserva señalada' : statusLabel(r.status)],
+    [r.is_manual ? 'Forma de pago' : 'Pago Mercado Pago', r.is_manual ? paymentMethodLabel(r.payment_method) : (r.payment_id || '-')],
   ];
 
   for (const [label, value] of lines) {
@@ -179,8 +187,8 @@ async function generateReservationPdfBuffer(reserva, opts = {}) {
   y -= 12;
   page.drawLine({ start: { x: 54, y }, end: { x: width - 54, y }, thickness: 1, color: rgb(0.8,0.84,0.87) });
   y -= 26;
-  const defaultNote = r.status === 'blocked'
-    ? 'Este comprobante corresponde a una reserva cargada manualmente desde el panel admin de Aguará Lodge. Podés compartirlo como constancia de la fecha apartada.'
+  const defaultNote = r.is_manual
+    ? 'Este comprobante corresponde a una reserva cargada manualmente desde el panel de Aguará Lodge. El saldo indicado ya descuenta la seña registrada.'
     : 'Este comprobante confirma la reserva registrada en Aguará Lodge una vez acreditada la seña. Guardalo para cualquier consulta.';
   const note = opts.note || defaultNote;
   for (const chunk of wrapText(note, 70)) {
@@ -192,6 +200,16 @@ async function generateReservationPdfBuffer(reserva, opts = {}) {
 
   const bytes = await pdfDoc.save();
   return Buffer.from(bytes);
+}
+
+function paymentMethodLabel(value) {
+  switch (String(value || '').toLowerCase()) {
+    case 'efectivo': return 'Efectivo';
+    case 'transferencia': return 'Transferencia';
+    case 'mercado_pago': return 'Mercado Pago';
+    case 'otro': return 'Otro';
+    default: return value || '-';
+  }
 }
 
 function wrapText(text, maxChars) {
